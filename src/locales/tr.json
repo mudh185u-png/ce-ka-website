@@ -1,0 +1,124 @@
+{
+    "nav": {
+        "home": "Anasayfa",
+        "products": "Koleksiyonlar",
+        "about": "Hakkımızda",
+        "contact": "İletişim"
+    },
+    "hero": {
+        "title": "Estetik ve Konforun Sanatı",
+        "subtitle": "Baza, başlık ve yatakta Türk el işçiliğinin zirvesi.",
+        "cta": "İncele"
+    },
+    "products": {
+        "baza": "Baza",
+        "baslik": "Başlık",
+        "yatak": "Yatak"
+    },
+    "about": {
+        "title": "Hakkımızda",
+        "desc": "Ce & Ka olarak, yılların verdiği tecrübe ile en kaliteli malzemeleri el işçiliği ile buluşturuyoruz. Sizin konforunuz, bizim önceliğimiz."
+    },
+    "contact": {
+        "title": "İletişim",
+        "address": "Siteler, Ankara, Türkiye",
+        "phone": "+90 555 000 00 00",
+        "email": "info@ceka.com.tr",
+        "cta": "Gönder"
+    },
+    "cart": {
+        "title": "Sepetim",
+        "empty": "Sepetiniz boş.",
+        "total": "Toplam:",
+        "checkout": "Ödeme Yap",
+        "remove": "Kaldır"
+    },
+    "common": {
+        "back": "Ana Sayfaya Dön",
+        "viewAll": "Tümünü Gör",
+        "addToCart": "Sepete Ekle",
+        "new": "YENİ",
+        "sale": "İNDİRİM",
+        "productsFound": "ürün bulundu",
+        "noProducts": "Bu kategoride henüz ürün bulunmuyor.",
+        "productNotFound": "Ürün bulunamadı.",
+        "loading": "Yükleniyor...",
+        "error": "Bir hata oluştu",
+        "success": "İşlem başarılı",
+        "share": "Ürünü Paylaş",
+        "linkCopied": "Bağlantı kopyalandı!",
+        "deliveryDesc": "Tüm şehre gönderim",
+        "warrantyDesc": "Resmi üretici garantisi"
+    },
+    "categories": {
+        "set": "Yatak & Baza & Başlık Set",
+        "yatak": "Yatak Koleksiyonu",
+        "baza": "Baza Koleksiyonu",
+        "baslik": "Başlık Koleksiyonu",
+        "bebek": "Bebek & Çocuk",
+        "tekstil": "Ev Tekstili",
+        "outlet": "Outlet Fırsatları",
+        "setPage": "Baza & Başlık Set",
+        "yatakPage": "Yatak Modelleri",
+        "bazaPage": "Baza Modelleri",
+        "baslikPage": "Başlık Modelleri",
+        "tekstilPage": "Ev Tekstili",
+        "outletPage": "Outlet & Fırsatlar"
+    },
+    "search": {
+        "placeholder": "Ürün ara...",
+        "results": "sonuç bulundu",
+        "noResults": "Sonuç bulunamadı.",
+        "popular": "Popüler Aramalar"
+    },
+    "filters": {
+        "title": "Filtrele",
+        "price": "Fiyat Aralığı",
+        "sort": "Sırala",
+        "newest": "En Yeni",
+        "lowToHigh": "Fiyat: Düşükten Yükseğe",
+        "highToLow": "Fiyat: Yüksekten Düşüğe",
+        "clear": "Temizle",
+        "apply": "Uygula",
+        "min": "Min",
+        "max": "Maks"
+    },
+    "auth": {
+        "loginTitle": "Hoş Geldiniz",
+        "registerTitle": "Hesap Oluştur",
+        "loginDesc": "Devam etmek için giriş yapın",
+        "registerDesc": "Özel avantajlardan yararlanmak için kaydolun",
+        "fullName": "Ad Soyad",
+        "phone": "Telefon",
+        "address": "Adres",
+        "email": "E-posta",
+        "password": "Şifre",
+        "login": "Giriş Yap",
+        "register": "Kayıt Ol",
+        "noAccount": "Hesabınız yok mu? Kaydolun",
+        "hasAccount": "Zaten hesabınız var mı? Giriş yapın",
+        "loginSuccess": "Giriş başarılı",
+        "registerSuccess": "Kayıt başarılı! Lütfen e-postanızı doğrulayın.",
+        "error": "Bir hata oluştu"
+    },
+    "checkout": {
+        "title": "Ödeme ve Onay",
+        "orderSummary": "Sipariş Özeti",
+        "subtotal": "Ara Toplam",
+        "shipping": "Kargo",
+        "free": "Ücretsiz",
+        "total": "Toplam",
+        "confirm": "Siparişi Onayla",
+        "complete": "Siparişi Tamamla",
+        "backToHome": "Ana Sayfaya Dön",
+        "thankYou": "Teşekkür Ederiz!",
+        "orderConfirmed": "Siparişiniz başarıyla alındı. Faturanız e-posta adresinize gönderilecektir.",
+        "deliveryType": "Kapıda Ödeme & Teslimat",
+        "deliveryDesc": "Ürününüz kapınıza ulaştığında ödemenizi yapabilirsiniz.",
+        "paymentType": "Güvenli Ödeme",
+        "paymentDesc": "Faturanız sistem tarafından otomatik olarak e-postanıza iletilir.",
+        "terms": "Siparişi onaylayarak satış sözleşmesini kabul etmiş sayılırsınız.",
+        "success": "Siparişiniz başarıyla oluşturuldu",
+        "error": "Sipariş oluşturulurken hata oluştu"
+    }
+}

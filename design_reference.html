@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baza ve Yatak Başlığı Modelleri ve Fiyatları - Yataş Bedding</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/styles-GLDTV2VX.css">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #212529;
+            line-height: 1.6;
+            background: #fff;
+        }
+        
+        /* Top Banner - Blue */
+        .top-banner {
+            background: #0066cc;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .top-banner-links {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 20px;
+        }
+        
+        .top-banner-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            transition: opacity 0.3s;
+        }
+        
+        .top-banner-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Main Header */
+        .main-header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #212529;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: #0066cc;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 40px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 12px 50px 12px 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+        
+        .search-bar button {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #6c757d;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            padding: 8px;
+            color: #212529;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .icon-btn:hover {
+            color: #0066cc;
+        }
+        
+        .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Navigation Bar */
+        .nav-bar {
+            background: #f8f9fa;
+            padding: 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: #212529;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 18px 24px;
+            display: block;
+            transition: color 0.3s, background 0.3s;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #0066cc;
+            background: white;
+        }
+        
+        /* Page Content */
+        .page-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #212529;
+        }
+        
+        .page-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn, .sort-btn {
+            padding: 10px 20px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-btn:hover, .sort-btn:hover {
+            border-color: #0066cc;
+            color: #0066cc;
+        }
+        
+        .results-count {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .compare-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: #dee2e6;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .toggle-switch.active {
+            background: #0066cc;
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+        
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+        
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #0066cc;
+        }
+        
+        .product-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .favorite-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .favorite-btn:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #212529;
+            line-height: 1.4;
+        }
+        
+        .product-description {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .product-features {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .product-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0066cc;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #6c757d;
+            font-size: 12px;
+        }
+        
+        .star {
+            color: #ffc107;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 20px;
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                width: 100%;
+                margin: 10px 0 0 0;
+            }
+            
+            .nav-container {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .page-content {
+                padding: 20px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        <span>9 Aya Varan Taksit İmkanı</span>
+        <div class="top-banner-links">
+            <a href="#">Smartmatch</a>
+            <a href="#">Destek</a>
+            <a href="#">Mağazalar</a>
+            <a href="#">Sipariş Takip</a>
+        </div>
+    </div>
+    
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-icon">[]</div>
+                <a href="#" class="logo">yataş bedding</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Q Ara">
+                <button>🔍</button>
+            </div>
+            <div class="header-icons">
+                <button class="icon-btn">👤</button>
+                <button class="icon-btn">
+                    🔔
+                    <span class="badge">3</span>
+                </button>
+                <button class="icon-btn">
+                    🛒
+                    <span class="badge">2</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#" class="active">Baza & Başlık</a></li>
+                <li><a href="#">Yatak</a></li>
+                <li><a href="#">Yataş Dünyası</a></li>
+                <li><a href="#">Kampanyalar</a></li>
+                <li><a href="#">Yatak Odası</a></li>
+                <li><a href="#">Yatak Takımları</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Page Content -->
+    <main class="page-content">
+        <div class="page-header">
+            <h1 class="page-title">Baza & Başlık</h1>
+            <div class="page-controls">
+                <button class="filter-btn">
+                    Filtreler
+                    <span>▼</span>
+                </button>
+                <span class="results-count">97 Sonuç</span>
+                <div class="compare-toggle">
+                    <span>Karşılaştır</span>
+                    <div class="toggle-switch"></div>
+                </div>
+                <button class="sort-btn">
+                    Önerilen
+                    <span>▼</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Products Grid -->
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://via.placeholder.com/400x300/4a5568/ffffff?text=Baza+%26+Baslik+Set" alt="Product" class="product-image">
+                    <button class="favorite-btn">♡</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Baza & Başlık Set</h3>
+                    <p class="product-description">Baza Başlık, 90×190 cm</p>
+                    <div class="product-features">
+                        <div class="feature-icon" title="Paket Yayı">📦</div>
+                        <div class="feature-icon" title="Robot Süpürgeye Uyumlu">🤖</div>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-price">₺12,999</div>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span>0 (0 Yorum)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://via.placeholder.com/400x300/2d3748/ffffff?text=Baza+Storage" alt="Product" class="product-image">
+                    <button class="favorite-btn">♡</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Baza & Başlık Set</h3>
+                    <p class="product-description">Baza Başlık, 90×190 cm</p>
+                    <div class="product-features">
+                        <div class="feature-icon" title="Geniş İç Hacim">📦</div>
+                        <div class="feature-icon" title="Robot Süpürgeye Uyumlu">🤖</div>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-price">₺14,999</div>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span>0 (0 Yorum)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://via.placeholder.com/400x300/1a202c/ffffff?text=Canto+Set" alt="Product" class="product-image">
+                    <button class="favorite-btn">♡</button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Canto & Cool Action 2'li Set</h3>
+                    <p class="product-description">Baza Başlık, 90×190 cm</p>
+                    <div class="product-features">
+                        <div class="feature-icon" title="Geniş İç Hacim">📦</div>
+                        <div class="feature-icon" title="Robot Süpürgeye Uyumlu">🤖</div>
+                    </div>
+                    <div class="product-meta">
+                        <div class="product-price">₺16,999</div>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span>0 (0 Yorum)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- More products can be added here -->
+        </div>
+    </main>
+    
+    <script>
+        // Toggle switch functionality
+        document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+        
+        // Favorite button functionality
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.textContent = this.textContent === '♡' ? '♥' : '♡';
+                this.style.color = this.textContent === '♥' ? '#ff6b6b' : '';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+{
+    "nav": {
+        "home": "Home",
+        "products": "Collections",
+        "about": "About Us",
+        "contact": "Contact"
+    },
+    "hero": {
+        "title": "The Art of Aesthetics and Comfort",
+        "subtitle": "The pinnacle of Turkish craftsmanship in bases, headboards and mattresses.",
+        "cta": "Explore"
+    },
+    "products": {
+        "baza": "Base",
+        "baslik": "Headboard",
+        "yatak": "Mattress"
+    },
+    "about": {
+        "title": "About Us",
+        "desc": "At Ce & Ka, we combine years of experience with artisanal craftsmanship and the finest materials. Your comfort is our priority."
+    },
+    "contact": {
+        "title": "Contact Us",
+        "address": "Siteler, Ankara, Turkey",
+        "phone": "+90 555 000 00 00",
+        "email": "info@ceka.com.tr",
+        "cta": "Send"
+    },
+    "cart": {
+        "title": "My Cart",
+        "empty": "Your cart is empty.",
+        "total": "Total:",
+        "checkout": "Checkout",
+        "remove": "Remove"
+    },
+    "common": {
+        "back": "Back to Home",
+        "viewAll": "View All",
+        "addToCart": "Add to Cart",
+        "new": "NEW",
+        "sale": "SALE",
+        "productsFound": "products found",
+        "noProducts": "No products found in this category.",
+        "productNotFound": "Product not found.",
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success",
+        "share": "Share Product",
+        "linkCopied": "Link copied to clipboard!",
+        "deliveryDesc": "Shipping to the whole city",
+        "warrantyDesc": "Official manufacturer warranty"
+    },
+    "categories": {
+        "set": "Bed & Base & Headboard Set",
+        "yatak": "Mattress Collection",
+        "baza": "Base Collection",
+        "baslik": "Headboard Collection",
+        "bebek": "Baby & Kids",
+        "tekstil": "Home Textile",
+        "outlet": "Outlet Deals"
+    },
+    "search": {
+        "placeholder": "Search products...",
+        "results": "results found",
+        "noResults": "No results found.",
+        "popular": "Popular Searches"
+    },
+    "filters": {
+        "title": "Filter",
+        "price": "Price Range",
+        "sort": "Sort",
+        "newest": "Newest",
+        "lowToHigh": "Price: Low to High",
+        "highToLow": "Price: High to Low",
+        "clear": "Clear",
+        "apply": "Apply",
+        "min": "Min",
+        "max": "Max"
+    },
+    "auth": {
+        "loginTitle": "Welcome back",
+        "registerTitle": "Create Account",
+        "loginDesc": "Login to continue",
+        "registerDesc": "Register for exclusive benefits",
+        "fullName": "Full Name",
+        "phone": "Phone",
+        "address": "Address",
+        "email": "Email",
+        "password": "Password",
+        "login": "Login",
+        "register": "Register",
+        "noAccount": "Don't have an account? Sign up",
+        "hasAccount": "Already have an account? Login",
+        "loginSuccess": "Login successful",
+        "registerSuccess": "Registration successful! Please confirm your email.",
+        "error": "An error occurred"
+    },
+    "checkout": {
+        "title": "Payment and Confirmation",
+        "orderSummary": "Order Summary",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "free": "Free",
+        "total": "Total",
+        "confirm": "Confirm Order",
+        "complete": "Complete Order",
+        "backToHome": "Back to Home",
+        "thankYou": "Thank you!",
+        "orderConfirmed": "Your order has been successfully received. Your invoice will be sent to your email address.",
+        "deliveryType": "Cash on Delivery",
+        "deliveryDesc": "You can pay when your product arrives at your door.",
+        "paymentType": "Secure Payment",
+        "paymentDesc": "Your invoice is sent automatically to your email by the system.",
+        "terms": "By confirming the order, you agree to the sales agreement.",
+        "success": "Your order has been created successfully",
+        "error": "An error occurred while creating order"
+    }
+}
