@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, ArrowRight, Loader2 } from 'lucide-react';
+import { Search, X, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useProducts } from '../context/ProductContext';
 import { Link } from 'react-router-dom';

@@ -1,11 +1,14 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, A11y } from 'swiper/modules';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { Bed, Armchair, Box, Layers, Archive, Percent } from 'lucide-react'; // Icons
 
+// @ts-expect-error - Swiper CSS imports might not have type declarations
 import 'swiper/css';
+// @ts-expect-error - Swiper CSS imports might not have type declarations
 import 'swiper/css/navigation';
+// @ts-expect-error - Swiper CSS imports might not have type declarations
 import 'swiper/css/pagination';
 
 const CategoryNav: React.FC = () => {

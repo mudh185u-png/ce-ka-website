@@ -8,8 +8,11 @@ import { Navigation, Pagination, A11y } from 'swiper/modules';
 import ProductCard from './ProductCard';
 
 // Swiper Styles
+// @ts-expect-error - Swiper CSS imports might not have type declarations
 import 'swiper/css';
+// @ts-expect-error - Swiper CSS imports might not have type declarations
 import 'swiper/css/navigation';
+// @ts-expect-error - Swiper CSS imports might not have type declarations
 import 'swiper/css/pagination';
 
 const ProductGrid: React.FC = () => {

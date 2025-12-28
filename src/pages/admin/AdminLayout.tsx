@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useProducts } from '../../context/ProductContext';
-import { LayoutDashboard, ShoppingBag, LogOut, Settings, Bell, User, Search, ShoppingCart } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, LogOut, Settings, Bell, Search, ShoppingCart } from 'lucide-react';
 
 const AdminLayout: React.FC = () => {
     const { logout } = useProducts();
