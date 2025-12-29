@@ -119,9 +119,17 @@ const Footer: React.FC = () => {
                 borderTop: '1px solid #333',
                 textAlign: 'center',
                 fontSize: '0.85rem',
-                color: '#666'
+                color: '#666',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem'
             }}>
-                &copy; {year} {contact.copyright || 'Ce & Ka. Tüm hakları saklıdır.'}
+                <div>&copy; {year} {contact.copyright || 'Ce & Ka. Tüm hakları saklıdır.'}</div>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+                    <a href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }} onMouseEnter={(e) => e.currentTarget.style.color = '#fff'} onMouseLeave={(e) => e.currentTarget.style.color = 'inherit'}>{t('policies.privacy.title')}</a>
+                    <a href="/refund" style={{ color: 'inherit', textDecoration: 'none' }} onMouseEnter={(e) => e.currentTarget.style.color = '#fff'} onMouseLeave={(e) => e.currentTarget.style.color = 'inherit'}>{t('policies.refund.title')}</a>
+                    <a href="/terms" style={{ color: 'inherit', textDecoration: 'none' }} onMouseEnter={(e) => e.currentTarget.style.color = '#fff'} onMouseLeave={(e) => e.currentTarget.style.color = 'inherit'}>{t('policies.terms.title')}</a>
+                </div>
             </div>
         </footer>
     );

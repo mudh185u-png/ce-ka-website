@@ -114,5 +114,19 @@
         "terms": "By confirming the order, you agree to the sales agreement.",
         "success": "Your order has been created successfully",
         "error": "An error occurred while creating order"
+    },
+    "policies": {
+        "privacy": {
+            "title": "Privacy Policy",
+            "desc": "We value your privacy and are committed to protecting your personal data."
+        },
+        "refund": {
+            "title": "Refund Policy",
+            "desc": "You can return products within 14 days of delivery in their original condition."
+        },
+        "terms": {
+            "title": "Terms and Conditions",
+            "desc": "By using our site, you agree to our terms and conditions."
+        }
     }
 }

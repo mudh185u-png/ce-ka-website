@@ -19,6 +19,9 @@ import ProductManager from './pages/admin/ProductManager';
 import OrdersManager from './pages/admin/OrdersManager';
 import Settings from './pages/admin/Settings';
 import AdminLayout from './pages/admin/AdminLayout';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPolicy from './pages/RefundPolicy';
+import Terms from './pages/Terms';
 import { useProducts } from './context/ProductContext';
 
 // Protected Route Component
@@ -84,6 +87,11 @@ function App() {
           <Footer />
         </div>
       } />
+
+      {/* Legal Routes */}
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/refund" element={<RefundPolicy />} />
+      <Route path="/terms" element={<Terms />} />
 
       {/* Admin Login */}
       <Route path="/admin/login" element={<Login />} />

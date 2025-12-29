@@ -120,5 +120,19 @@
         "terms": "Siparişi onaylayarak satış sözleşmesini kabul etmiş sayılırsınız.",
         "success": "Siparişiniz başarıyla oluşturuldu",
         "error": "Sipariş oluşturulurken hata oluştu"
+    },
+    "policies": {
+        "privacy": {
+            "title": "Gizlilik Politikası",
+            "desc": "Gizliliğinize değer veriyoruz ve kişisel verilerinizi korumayı taahhüt ediyoruz."
+        },
+        "refund": {
+            "title": "İade Politikası",
+            "desc": "Ürünleri teslim tarihten itibaren 14 gün içinde orijinal durumunda iade edebilirsiniz."
+        },
+        "terms": {
+            "title": "Şartlar ve Koşullar",
+            "desc": "Sitemizi kullanarak şartlarımızı ve koşullarımızı kabul etmiş olursunuz."
+        }
     }
 }
