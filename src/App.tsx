@@ -22,6 +22,7 @@ import AdminLayout from './pages/admin/AdminLayout';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import RefundPolicy from './pages/RefundPolicy';
 import Terms from './pages/Terms';
+import Wishlist from './pages/Wishlist';
 import { useProducts } from './context/ProductContext';
 
 // Protected Route Component
@@ -92,6 +93,7 @@ function App() {
       <Route path="/privacy" element={<PrivacyPolicy />} />
       <Route path="/refund" element={<RefundPolicy />} />
       <Route path="/terms" element={<Terms />} />
+      <Route path="/wishlist" element={<Wishlist />} />
 
       {/* Admin Login */}
       <Route path="/admin/login" element={<Login />} />

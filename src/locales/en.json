@@ -33,6 +33,16 @@
         "checkout": "Checkout",
         "remove": "Remove"
     },
+    "wishlist": {
+        "title": "My Wishlist",
+        "empty": "Your wishlist is empty.",
+        "added": "Added to wishlist",
+        "removed": "Removed from wishlist"
+    },
+    "wishlistPage": {
+        "title": "My Favorite Products",
+        "description": "Keep the products you like here to come back to them later."
+    },
     "common": {
         "back": "Back to Home",
         "viewAll": "View All",

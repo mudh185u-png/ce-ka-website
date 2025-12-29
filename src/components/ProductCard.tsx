@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import type { Product } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
-import { ShoppingCart } from 'lucide-react';
+import { useWishlist } from '../context/WishlistContext';
+import { ShoppingCart, Heart } from 'lucide-react';
 
 interface ProductCardProps {
     product: Product;
@@ -13,6 +14,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { addToCart } = useCart();
+
+    const { toggleWishlist, isInWishlist } = useWishlist();
+    const isFavorite = isInWishlist(product.id);
 
     const getLocalized = (obj: { [key: string]: string } | undefined) => {
         if (!obj) return '';
@@ -41,15 +45,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 )}
 
                 <button
-                    className="favorite-btn"
+                    className={`favorite-btn ${isFavorite ? 'active' : ''}`}
                     onClick={(e) => {
                         e.stopPropagation();
-                        // Future: Add to wishlist logic
+                        toggleWishlist(product);
+                    }}
+                    style={{
+                        backgroundColor: isFavorite ? 'white' : 'rgba(255,255,255,0.8)',
+                        color: isFavorite ? '#ff4d4d' : '#333'
                     }}
                 >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                    </svg>
+                    <Heart size={20} fill={isFavorite ? '#ff4d4d' : 'none'} />
                 </button>
             </div>
 

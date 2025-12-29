@@ -33,6 +33,16 @@
         "checkout": "Ödeme Yap",
         "remove": "Kaldır"
     },
+    "wishlist": {
+        "title": "Favorilerim",
+        "empty": "Favori listeniz boş.",
+        "added": "Favorilere eklendi",
+        "removed": "Favorilerden çıkarıldı"
+    },
+    "wishlistPage": {
+        "title": "Favori Ürünlerim",
+        "description": "Beğendiğiniz ürünleri daha sonra incelemek için burada saklayın."
+    },
     "common": {
         "back": "Ana Sayfaya Dön",
         "viewAll": "Tümünü Gör",

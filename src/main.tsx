@@ -6,6 +6,7 @@ import './i18n'
 import App from './App.tsx'
 import { ProductProvider } from './context/ProductContext.tsx';
 import { CartProvider } from './context/CartContext.tsx';
+import { WishlistProvider } from './context/WishlistContext.tsx';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
 import { ToastProvider } from './components/Toast.tsx';
 
@@ -14,11 +15,13 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <ToastProvider>
         <ProductProvider>
-          <CartProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </CartProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </CartProvider>
+          </WishlistProvider>
         </ProductProvider>
       </ToastProvider>
     </ErrorBoundary>

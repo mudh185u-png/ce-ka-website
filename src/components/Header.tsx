@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ShoppingCart, Menu, X, Trash2, Search, User, CreditCard } from 'lucide-react';
+import { ShoppingCart, Menu, X, Trash2, Search, User, CreditCard, Heart } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchOverlay from './SearchOverlay';
 
@@ -10,6 +11,7 @@ const Header: React.FC = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { cart, cartCount, cartTotal, isCartOpen, toggleCart, removeFromCart } = useCart();
+    const { wishlist } = useWishlist();
     const { isAuthenticated } = useProducts();
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -75,12 +77,12 @@ const Header: React.FC = () => {
                 justifyContent: 'space-between'
             }}>
                 {/* Logo Section */}
-                <Link 
-                    to="/" 
-                    style={{ 
-                        textDecoration: 'none', 
-                        color: 'inherit', 
-                        display: 'flex', 
+                <Link
+                    to="/"
+                    style={{
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        display: 'flex',
                         alignItems: 'center',
                         transition: 'transform 0.3s ease, opacity 0.3s ease'
                     }}
@@ -219,6 +221,47 @@ const Header: React.FC = () => {
                         onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
                     >
                         <User size={isMobile ? 20 : 22} />
+                    </Link>
+
+                    {/* Wishlist Link */}
+                    <Link
+                        to="/wishlist"
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '0.5rem',
+                            color: wishlist.length > 0 ? '#ff4d4d' : '#212529',
+                            transition: 'transform 0.2s ease',
+                            textDecoration: 'none',
+                            position: 'relative'
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
+                        onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                        <Heart size={isMobile ? 20 : 22} fill={wishlist.length > 0 ? '#ff4d4d' : 'none'} />
+                        {wishlist.length > 0 && (
+                            <span style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                backgroundColor: '#ff4d4d',
+                                color: 'white',
+                                borderRadius: '50%',
+                                width: '18px',
+                                height: '18px',
+                                fontSize: '10px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontWeight: 'bold',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                            }}>
+                                {wishlist.length}
+                            </span>
+                        )}
                     </Link>
 
                     {/* Cart Trigger */}
