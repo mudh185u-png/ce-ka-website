@@ -138,5 +138,11 @@
             "title": "Terms and Conditions",
             "desc": "By using our site, you agree to our terms and conditions."
         }
+    },
+    "whatsapp": {
+        "welcome": "Hello! How can we help you today?",
+        "sales": "Sales Department",
+        "support": "Technical Support",
+        "chatNow": "Chat with us now"
     }
 }

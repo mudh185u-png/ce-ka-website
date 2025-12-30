@@ -14,9 +14,13 @@ const Hero: React.FC = () => {
         title: { tr: '', ar: '', en: '' },
         subtitle: { tr: '', ar: '', en: '' }
     });
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const isRTL = i18n.dir() === 'rtl';
 
     useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+
         const fetchVideoSettings = async () => {
             const { data } = await supabase
                 .from('site_settings')
@@ -33,21 +37,22 @@ const Hero: React.FC = () => {
             }
         };
         fetchVideoSettings();
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const currentLang = i18n.language as 'tr' | 'en' | 'ar';
 
     return (
-        <div style={{ padding: '1rem 2rem', backgroundColor: '#fdfdfd' }}>
+        <div style={{ padding: isMobile ? '0.5rem' : '1rem 2rem', backgroundColor: '#fdfdfd' }}>
             <section style={{
                 position: 'relative',
-                height: '65vh',
+                height: isMobile ? '50vh' : '65vh',
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: isRTL ? 'flex-end' : 'flex-start',
                 overflow: 'hidden',
-                borderRadius: '24px',
+                borderRadius: isMobile ? '12px' : '24px',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
             }}>
                 {/* Video Background */}
@@ -88,14 +93,14 @@ const Hero: React.FC = () => {
                     style={{
                         position: 'relative',
                         zIndex: 10,
-                        padding: '0 8%',
+                        padding: isMobile ? '0 1.5rem' : '0 8%',
                         maxWidth: '800px',
                         color: '#fff',
                         textAlign: isRTL ? 'right' : 'left'
                     }}
                 >
                     <h1 style={{
-                        fontSize: '3.5rem',
+                        fontSize: isMobile ? '2rem' : '3.5rem',
                         marginBottom: '1rem',
                         lineHeight: 1.2,
                         color: '#fff',
@@ -105,7 +110,7 @@ const Hero: React.FC = () => {
                         {heroData.title[currentLang] || t('hero.title')}
                     </h1>
                     <p style={{
-                        fontSize: '1.2rem',
+                        fontSize: isMobile ? '0.95rem' : '1.2rem',
                         marginBottom: '2rem',
                         opacity: 0.95,
                         maxWidth: '600px',
@@ -114,8 +119,8 @@ const Hero: React.FC = () => {
                         {heroData.subtitle[currentLang] || t('hero.subtitle')}
                     </p>
                     <button style={{
-                        padding: '1rem 2.5rem',
-                        fontSize: '1.1rem',
+                        padding: isMobile ? '0.8rem 1.8rem' : '1rem 2.5rem',
+                        fontSize: isMobile ? '0.95rem' : '1.1rem',
                         backgroundColor: '#D4AF37', // Gold color for contrast
                         color: 'white',
                         border: 'none',

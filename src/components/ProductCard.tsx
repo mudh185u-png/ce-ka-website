@@ -34,7 +34,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <img
                     src={product.images?.[0] || 'https://via.placeholder.com/300'}
                     alt={getLocalized(product.title)}
-                    loading="lazy"
+                    width="400"
+                    height="400"
                     className="product-image"
                 />
 

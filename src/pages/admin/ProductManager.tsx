@@ -9,6 +9,13 @@ const ProductManager: React.FC = () => {
     const { showToast } = useToast();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const [editingId, setEditingId] = useState<number | null>(null);
     const [formData, setFormData] = useState<Omit<Product, 'id'>>({
@@ -166,23 +173,35 @@ const ProductManager: React.FC = () => {
     return (
         <div style={{ padding: '2rem', height: '100%', position: 'relative', backgroundColor: '#f0f2f5' }}>
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', backgroundColor: 'white', padding: '1rem', borderRadius: '4px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+            <div style={{
+                display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                justifyContent: 'space-between',
+                alignItems: isMobile ? 'stretch' : 'center',
+                marginBottom: '1.5rem',
+                backgroundColor: 'white',
+                padding: '1rem',
+                borderRadius: '8px',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+                gap: isMobile ? '1rem' : '0'
+            }}>
                 <div>
-                    <h2 style={{ fontSize: '1.25rem', color: '#262626', margin: 0 }}>Ürün Yönetimi</h2>
-                    <p style={{ fontSize: '0.85rem', color: '#8c8c8c', margin: '0.2rem 0 0' }}>Tüm ürünlerinizi buradan yönetebilirsiniz.</p>
+                    <h2 style={{ fontSize: isMobile ? '1.1rem' : '1.25rem', color: '#262626', margin: 0 }}>Ürün Yönetimi</h2>
+                    <p style={{ fontSize: '0.8rem', color: '#8c8c8c', margin: '0.2rem 0 0' }}>Tüm ürünlerinizi yönetin.</p>
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', flexDirection: isMobile ? 'column-reverse' : 'row' }}>
                     <div style={{ position: 'relative' }}>
                         <Search size={16} color="#bfbfbf" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />
-                        <input type="text" placeholder="Ara..." style={{ padding: '0.5rem 0.5rem 0.5rem 2rem', border: '1px solid #d9d9d9', borderRadius: '4px', fontSize: '0.9rem', width: '200px' }} />
+                        <input type="text" placeholder="Ara..." style={{ padding: '0.5rem 0.5rem 0.5rem 2rem', border: '1px solid #d9d9d9', borderRadius: '4px', fontSize: '0.9rem', width: isMobile ? '100%' : '200px' }} />
                     </div>
                     <button
                         onClick={() => { resetForm(); setIsFormOpen(true); }}
                         style={{
                             display: 'flex',
                             alignItems: 'center',
+                            justifyContent: 'center',
                             gap: '0.5rem',
-                            padding: '0.5rem 1rem',
+                            padding: isMobile ? '0.7rem' : '0.5rem 1rem',
                             backgroundColor: '#1890ff',
                             color: 'white',
                             border: 'none',
@@ -199,8 +218,8 @@ const ProductManager: React.FC = () => {
             </div>
 
             {/* Data Table */}
-            <div style={{ backgroundColor: 'white', border: '1px solid #f0f0f0', borderRadius: '4px' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
+            <div style={{ backgroundColor: 'white', border: '1px solid #f0f0f0', borderRadius: '8px', overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem', minWidth: isMobile ? '600px' : 'auto' }}>
                     <thead style={{ backgroundColor: '#fafafa' }}>
                         <tr style={{ color: '#262626' }}>
                             <th style={{ padding: '1rem', borderBottom: '1px solid #f0f0f0', fontWeight: 600 }}>Görsel</th>
@@ -269,7 +288,7 @@ const ProductManager: React.FC = () => {
                         top: 0,
                         right: 0,
                         bottom: 0,
-                        width: '600px',
+                        width: isMobile ? '100%' : '600px',
                         backgroundColor: 'white',
                         boxShadow: '-4px 0 16px rgba(0,0,0,0.1)',
                         zIndex: 100,

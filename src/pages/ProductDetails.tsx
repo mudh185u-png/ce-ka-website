@@ -4,10 +4,20 @@ import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
 import { useTranslation } from 'react-i18next';
 import {
-    ShoppingCart, Share2, Truck, ShieldCheck, ArrowLeft, CreditCard
+    ShoppingCart, Share2, Truck, ShieldCheck, ArrowLeft, CreditCard, Star, MessageSquare, Send, CheckCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../supabase';
+
+interface Review {
+    id: string;
+    product_id: string;
+    user_name: string;
+    rating: number;
+    comment: string;
+    created_at: string;
+    status: 'pending' | 'approved' | 'rejected';
+}
 
 const ProductDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -15,6 +25,11 @@ const ProductDetails: React.FC = () => {
     const { addToCart } = useCart();
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
+
+    const getLocalized = useCallback((obj: { [key: string]: string } | undefined) => {
+        if (!obj) return '';
+        return obj[i18n.language] || obj['en'] || Object.values(obj)[0] || '';
+    }, [i18n.language]);
 
     // Find product - handle potential type mismatch if ID comes as string
     const product = products.find(p => p.id === Number(id));
@@ -28,18 +43,116 @@ const ProductDetails: React.FC = () => {
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [showToast, setShowToast] = useState(false);
 
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const lastProductId = useRef<number | null>(null);
+
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const [reviewForm, setReviewForm] = useState({ name: '', rating: 5, comment: '' });
+    const [submittingReview, setSubmittingReview] = useState(false);
+    const [reviewMessage, setReviewMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+    const [isReviewsModalOpen, setIsReviewsModalOpen] = useState(false);
+    const { user, isAuthenticated } = useProducts();
+
+    useEffect(() => {
+        if (isAuthenticated && user?.user_metadata?.full_name) {
+            setReviewForm(prev => ({ ...prev, name: user.user_metadata.full_name }));
+        }
+    }, [isAuthenticated, user]);
 
     useEffect(() => {
         if (product && product.id !== lastProductId.current) {
             lastProductId.current = product.id;
-            if (product.images?.length > 0) setSelectedImage(product.images[0]);
-            setSelectedSize(product.variants?.[0] || null);
-            setSelectedFabric(product.fabrics?.[0] || '');
-            setSelectedLeg(product.legs?.[0] || '');
+
+            const initialImage = product.images?.[0] || '';
+            const initialVariant = product.variants?.[0] || null;
+            const initialFabric = product.fabrics?.[0] || '';
+            const initialLeg = product.legs?.[0] || '';
+
+            setSelectedImage(initialImage);
+            setSelectedSize(initialVariant);
+            setSelectedFabric(initialFabric);
+            setSelectedLeg(initialLeg);
             window.scrollTo(0, 0);
+
+            // Dynamic SEO Enhancement
+            const title = getLocalized(product.title);
+            const desc = getLocalized(product.description);
+            document.title = `${title} | Ce & Ka Baza`;
+
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+                metaDesc.setAttribute('content', desc.substring(0, 160));
+            }
+
+            fetchReviews(product.id);
         }
-    }, [product]);
+    }, [product, getLocalized]);
+
+    const fetchReviews = async (productId: number) => {
+        try {
+            const { data, error } = await supabase
+                .from('product_reviews')
+                .select('*')
+                .eq('product_id', productId)
+                .eq('status', 'approved')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+            if (data) setReviews(data);
+        } catch (err) {
+            console.error('Error fetching reviews:', err);
+        }
+    };
+
+    const submitReview = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Use user name from metadata if authenticated, otherwise from form
+        const submissionName = isAuthenticated ? (user?.user_metadata?.full_name || user?.email) : reviewForm.name;
+
+        if (!submissionName || !reviewForm.comment) {
+            console.error("Submission blocked: missing name or comment", { submissionName, comment: reviewForm.comment });
+            return;
+        }
+
+        setSubmittingReview(true);
+        setReviewMessage(null);
+
+        try {
+            const { error } = await supabase
+                .from('product_reviews')
+                .insert([{
+                    product_id: product?.id,
+                    user_name: submissionName,
+                    rating: reviewForm.rating,
+                    comment: reviewForm.comment,
+                    status: 'approved' // Now approved by default
+                }]);
+
+            if (error) throw error;
+
+            setReviewMessage({
+                text: i18n.language === 'ar' ? 'شكراً لك! تقييمك بانتظار موافقة المسؤول ليظهر للجميع.' : (i18n.language === 'tr' ? 'Teşekkürler! Değerlendirmeniz yönetici onayından sonra görünecektir.' : 'Thank you! Your review will appear after admin approval.'),
+                type: 'success'
+            });
+            setReviewForm({ name: '', rating: 5, comment: '' });
+        } catch (err: any) {
+            console.error('Error submitting review:', err);
+            const errorMessage = err?.message || (i18n.language === 'ar' ? 'فشل إرسال التقييم.' : 'Değerlendirme gönderilemedi.');
+            setReviewMessage({ text: errorMessage, type: 'error' });
+            // Add a temporary alert if fetch fails to make it obvious
+            alert(`Review Error: ${err?.message}`);
+        } finally {
+            setSubmittingReview(false);
+        }
+    };
 
     const [deliveryInfo, setDeliveryInfo] = useState({ tr: 'Ücretsiz Teslimat', en: 'Free Delivery', ar: 'توصيل مجاني' });
     const [warrantyInfo, setWarrantyInfo] = useState({ tr: '2 Yıl Garanti', en: '2 Years Warranty', ar: 'ضمان لمدة سنتين' });
@@ -110,17 +223,13 @@ const ProductDetails: React.FC = () => {
         fetchSettings();
     }, []);
 
+
     if (!product) {
         return <div style={{ padding: '4rem', textAlign: 'center', fontSize: '1.2rem', color: '#666' }}>{t('common.productNotFound')}</div>;
     }
 
-    const getLocalized = (obj: { [key: string]: string } | undefined) => {
-        if (!obj) return '';
-        return obj[i18n.language] || obj['en'] || Object.values(obj)[0] || '';
-    };
-
     return (
-        <div style={{ padding: '2rem 5%', backgroundColor: '#fdfdfd', minHeight: '90vh' }}>
+        <div style={{ padding: isMobile ? '1rem' : '2rem 5%', backgroundColor: '#fdfdfd', minHeight: '90vh' }}>
             <button
                 onClick={() => navigate(-1)}
                 style={{
@@ -130,7 +239,7 @@ const ProductDetails: React.FC = () => {
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    marginBottom: '2rem',
+                    marginBottom: isMobile ? '1rem' : '2rem',
                     fontSize: '0.95rem',
                     color: '#666',
                     padding: '0.5rem',
@@ -144,7 +253,13 @@ const ProductDetails: React.FC = () => {
                 {t('nav.back') || 'Geri Dön'}
             </button>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3rem', maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(320px, 1fr))',
+                gap: isMobile ? '2rem' : '3rem',
+                maxWidth: '1200px',
+                margin: '0 auto'
+            }}>
                 {/* Gallery Section */}
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
@@ -155,7 +270,7 @@ const ProductDetails: React.FC = () => {
                         onClick={() => setIsLightboxOpen(true)}
                         style={{
                             width: '100%',
-                            height: '450px',
+                            height: isMobile ? '350px' : '450px',
                             borderRadius: '16px',
                             overflow: 'hidden',
                             marginBottom: '1rem',
@@ -962,6 +1077,181 @@ const ProductDetails: React.FC = () => {
                 </motion.div>
             </div>
 
+            {/* Reviews Section */}
+            <div style={{ marginTop: '5rem', paddingTop: '3rem', borderTop: '1px solid #eee' }}>
+                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '3rem', maxWidth: '1200px', margin: '0 auto' }}>
+                    {/* Review List */}
+                    <div style={{ flex: 1 }}>
+                        <h3 style={{ fontSize: '1.6rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: '#222' }}>
+                            <MessageSquare size={24} /> {t('common.reviews') || 'Müşteri Değerlendirmeleri'}
+                        </h3>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            {reviews.slice(0, 3).map((review) => (
+                                <div key={review.id} style={{ padding: '1.5rem', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)', border: '1px solid #f0f0f0' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.8rem' }}>
+                                        <div>
+                                            <span style={{ fontWeight: 600, color: '#333', fontSize: '1rem' }}>{review.user_name}</span>
+                                            <div style={{ display: 'flex', gap: '2px', marginTop: '4px' }}>
+                                                {[...Array(5)].map((_, i) => (
+                                                    <Star key={i} size={14} fill={i < review.rating ? "#d4af37" : "none"} color={i < review.rating ? "#d4af37" : "#ddd"} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <span style={{ fontSize: '0.8rem', color: '#999' }}>{new Date(review.created_at).toLocaleDateString(i18n.language === 'ar' ? 'ar-SA' : (i18n.language === 'tr' ? 'tr-TR' : 'en-US'))}</span>
+                                    </div>
+                                    <p style={{ color: '#555', lineHeight: 1.6, margin: 0, fontSize: '0.95rem' }}>{review.comment}</p>
+                                </div>
+                            ))}
+
+                            {reviews.length > 3 && (
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setIsReviewsModalOpen(true);
+                                    }}
+                                    style={{
+                                        alignSelf: 'center',
+                                        padding: '0.8rem 2rem',
+                                        borderRadius: '30px',
+                                        border: '1px solid #ddd',
+                                        background: 'transparent',
+                                        color: '#666',
+                                        fontWeight: 600,
+                                        fontSize: '0.9rem',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s ease',
+                                        marginTop: '1rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.5rem'
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.backgroundColor = '#f8f9fa';
+                                        e.currentTarget.style.borderColor = '#999';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.backgroundColor = 'transparent';
+                                        e.currentTarget.style.borderColor = '#ddd';
+                                    }}
+                                >
+                                    {`${t('common.viewAll') || (i18n.language === 'ar' ? 'عرض الكل' : 'Hepsini Gör')} (${reviews.length})`}
+                                </button>
+                            )}
+
+                            {reviews.length === 0 && (
+                                <div style={{ textAlign: 'center', padding: '3rem', backgroundColor: '#fafafa', borderRadius: '12px', color: '#888' }}>
+                                    {t('common.noReviews') || 'Henüz bu ürün için değerlendirme yapılmamış.'}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Review Form */}
+                    <div style={{ width: isMobile ? '100%' : '380px' }}>
+                        <div style={{ backgroundColor: '#fff', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #f0f0f0', position: 'sticky', top: '100px' }}>
+                            <h4 style={{ margin: '0 0 1.5rem 0', fontSize: '1.2rem', fontWeight: 700 }}>{t('common.addReview') || 'Değerlendirme Yaz'}</h4>
+
+                            {reviewMessage ? (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    style={{ padding: '1.5rem', backgroundColor: reviewMessage.type === 'success' ? '#f6ffed' : '#fff2f0', border: `1px solid ${reviewMessage.type === 'success' ? '#b7eb8f' : '#ffccc7'}`, borderRadius: '8px', textAlign: 'center' }}
+                                >
+                                    {reviewMessage.type === 'success' ? <CheckCircle size={32} color="#52c41a" style={{ marginBottom: '0.8rem' }} /> : null}
+                                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#333' }}>{reviewMessage.text}</p>
+                                    {reviewMessage.type === 'success' && (
+                                        <button
+                                            onClick={() => setReviewMessage(null)}
+                                            style={{ marginTop: '1rem', background: 'none', border: 'none', color: '#1a1a1a', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
+                                        >
+                                            {t('common.close') || 'Kapat'}
+                                        </button>
+                                    )}
+                                </motion.div>
+                            ) : (
+                                <form onSubmit={submitReview} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+                                    {isAuthenticated ? (
+                                        <div style={{ padding: '1rem', backgroundColor: '#f0f7ff', borderRadius: '12px', border: '1px solid #bae7ff', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                                            <div style={{ backgroundColor: '#1890ff', color: 'white', borderRadius: '50%', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                <CheckCircle size={16} />
+                                            </div>
+                                            <div>
+                                                <div style={{ fontSize: '0.75rem', color: '#0050b3', fontWeight: 600, textTransform: 'uppercase' }}>{t('common.verifiedAccount') || 'Doğrulanmış Hesap'}</div>
+                                                <div style={{ fontSize: '0.95rem', color: '#002766', fontWeight: 700 }}>{user?.user_metadata?.full_name || user?.email}</div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('common.name') || 'Adınız'}</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={reviewForm.name}
+                                                onChange={(e) => setReviewForm(prev => ({ ...prev, name: e.target.value }))}
+                                                style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', border: '1px solid #ddd', fontSize: '0.95rem' }}
+                                                placeholder={t('common.yourName') || 'Adınız Soyadınız'}
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('common.rating') || 'Puanınız'}</label>
+                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <button
+                                                    key={star}
+                                                    type="button"
+                                                    onClick={() => setReviewForm(prev => ({ ...prev, rating: star }))}
+                                                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.2rem' }}
+                                                >
+                                                    <Star size={24} fill={star <= reviewForm.rating ? "#d4af37" : "none"} color={star <= reviewForm.rating ? "#d4af37" : "#ddd"} />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('common.comment') || 'Yorumunuz'}</label>
+                                        <textarea
+                                            required
+                                            value={reviewForm.comment}
+                                            onChange={(e) => setReviewForm(prev => ({ ...prev, comment: e.target.value }))}
+                                            rows={4}
+                                            style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', border: '1px solid #ddd', fontSize: '0.95rem', resize: 'none' }}
+                                            placeholder={t('common.yourComment') || 'Ürün hakkındaki görüşleriniz...'}
+                                        />
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        disabled={submittingReview}
+                                        style={{
+                                            padding: '1rem',
+                                            backgroundColor: '#1a1a1a',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '8px',
+                                            fontWeight: 600,
+                                            cursor: submittingReview ? 'not-allowed' : 'pointer',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '0.5rem',
+                                            transition: 'opacity 0.2s'
+                                        }}
+                                    >
+                                        {submittingReview ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>⏳</motion.div> : <Send size={18} />}
+                                        {t('common.submitReview') || 'Değerlendirmeyi Gönder'}
+                                    </button>
+                                </form>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* Related Products */}
             <div style={{ marginTop: '6rem', paddingTop: '3rem', borderTop: '1px solid #eee' }}>
                 <h3 style={{ fontSize: '1.8rem', marginBottom: '2.5rem', textAlign: 'center', color: '#222', fontFamily: "'Playfair Display', serif" }}>
@@ -1012,6 +1302,95 @@ const ProductDetails: React.FC = () => {
                         ))}
                 </div>
             </div>
+            {/* Reviews Modal */}
+            <AnimatePresence>
+                {isReviewsModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(0,0,0,0.7)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 9999,
+                            padding: '20px',
+                            backdropFilter: 'blur(5px)'
+                        }}
+                        onClick={() => setIsReviewsModalOpen(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            style={{
+                                backgroundColor: 'white',
+                                width: '100%',
+                                maxWidth: '600px',
+                                maxHeight: '80vh',
+                                borderRadius: '24px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                overflow: 'hidden',
+                                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
+                            }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff' }}>
+                                <h3 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 700, color: '#1a1a1a' }}>
+                                    {t('common.reviews') || 'Değerlendirmeler'} ({reviews.length})
+                                </h3>
+                                <button
+                                    onClick={() => setIsReviewsModalOpen(false)}
+                                    style={{ background: '#f5f5f5', border: 'none', width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
+                                    onMouseEnter={e => e.currentTarget.style.backgroundColor = '#eee'}
+                                    onMouseLeave={e => e.currentTarget.style.backgroundColor = '#f5f5f5'}
+                                >
+                                    <ArrowLeft size={20} style={{ transform: i18n.language === 'ar' ? 'scaleX(-1)' : 'none' }} />
+                                </button>
+                            </div>
+
+                            <div style={{ flex: 1, overflowY: 'auto', padding: '2rem' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                                    {reviews.map((review) => (
+                                        <div key={review.id} style={{ padding: '1.5rem', backgroundColor: '#fcfcfc', borderRadius: '16px', border: '1px solid #f0f0f0' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.8rem' }}>
+                                                <div>
+                                                    <span style={{ fontWeight: 600, color: '#333', fontSize: '1rem' }}>{review.user_name}</span>
+                                                    <div style={{ display: 'flex', gap: '2px', marginTop: '4px' }}>
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <Star key={i} size={14} fill={i < review.rating ? "#d4af37" : "none"} color={i < review.rating ? "#d4af37" : "#ddd"} />
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <span style={{ fontSize: '0.8rem', color: '#999' }}>{new Date(review.created_at).toLocaleDateString(i18n.language === 'ar' ? 'ar-SA' : (i18n.language === 'tr' ? 'tr-TR' : 'en-US'))}</span>
+                                            </div>
+                                            <p style={{ color: '#555', lineHeight: 1.6, margin: 0, fontSize: '0.95rem' }}>{review.comment}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div style={{ padding: '1.5rem 2rem', borderTop: '1px solid #eee', textAlign: 'center', backgroundColor: '#fafafa' }}>
+                                <button
+                                    onClick={() => setIsReviewsModalOpen(false)}
+                                    style={{ padding: '0.8rem 2.5rem', backgroundColor: '#1a1a1a', color: 'white', border: 'none', borderRadius: '30px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}
+                                    onMouseEnter={e => e.currentTarget.style.backgroundColor = '#333'}
+                                    onMouseLeave={e => e.currentTarget.style.backgroundColor = '#1a1a1a'}
+                                >
+                                    {t('common.close') || 'Kapat'}
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

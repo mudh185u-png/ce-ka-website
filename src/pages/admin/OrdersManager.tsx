@@ -11,6 +11,13 @@ const OrdersManager: React.FC = () => {
     const [statusFilter, setStatusFilter] = useState<string>('all');
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
     const [viewingInvoice, setViewingInvoice] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const fetchOrders = useCallback(async () => {
         setLoading(true);
@@ -106,29 +113,36 @@ const OrdersManager: React.FC = () => {
 
     return (
         <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+            <div style={{
+                display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                justifyContent: 'space-between',
+                alignItems: isMobile ? 'flex-start' : 'center',
+                marginBottom: isMobile ? '1.5rem' : '2.5rem',
+                gap: isMobile ? '0.5rem' : '0'
+            }}>
                 <div>
-                    <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Sipariş Yönetimi</h1>
-                    <p style={{ color: '#666', marginTop: '0.4rem' }}>Mağazanızdaki tüm siparişleri buradan takip edin ve yönetin.</p>
+                    <h1 style={{ fontSize: isMobile ? '1.5rem' : '2rem', fontWeight: 700, color: '#1a1a1a', margin: 0 }}>Sipariş Yönetimi</h1>
+                    <p style={{ color: '#666', marginTop: '0.4rem', fontSize: isMobile ? '0.85rem' : '1rem' }}>Tüm siparişleri takip edin.</p>
                 </div>
             </div>
 
             {/* Filters */}
             <div style={{
                 display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
                 gap: '1rem',
                 marginBottom: '2rem',
                 backgroundColor: 'white',
-                padding: '1.2rem',
+                padding: isMobile ? '1rem' : '1.2rem',
                 borderRadius: '12px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                flexWrap: 'wrap'
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
             }}>
-                <div style={{ flex: 1, minWidth: '300px', position: 'relative' }}>
+                <div style={{ flex: 1, minWidth: isMobile ? 'auto' : '300px', position: 'relative' }}>
                     <Search size={18} color="#bfbfbf" style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)' }} />
                     <input
                         type="text"
-                        placeholder="Müşteri adı, e-posta veya sipariş no ile ara..."
+                        placeholder="Müşteri, e-posta veya ID..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         style={{
@@ -136,24 +150,24 @@ const OrdersManager: React.FC = () => {
                             padding: '0.8rem 1rem 0.8rem 2.8rem',
                             borderRadius: '8px',
                             border: '1px solid #d9d9d9',
-                            fontSize: '0.95rem',
+                            fontSize: '0.9rem',
                             outline: 'none'
                         }}
                     />
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', width: isMobile ? '100%' : 'auto' }}>
                     <Filter size={18} color="#595959" />
                     <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
                         style={{
+                            flex: 1,
                             padding: '0.8rem 1rem',
                             borderRadius: '8px',
                             border: '1px solid #d9d9d9',
                             outline: 'none',
                             backgroundColor: 'white',
-                            fontSize: '0.95rem',
-                            minWidth: '160px'
+                            fontSize: '0.9rem'
                         }}
                     >
                         <option value="all">Tüm Durumlar</option>
@@ -174,7 +188,7 @@ const OrdersManager: React.FC = () => {
                         color: '#1890ff',
                         cursor: 'pointer',
                         fontWeight: 500,
-                        transition: 'all 0.2s'
+                        width: isMobile ? '100%' : 'auto'
                     }}
                 >
                     Tazele
@@ -182,8 +196,8 @@ const OrdersManager: React.FC = () => {
             </div>
 
             {/* Table */}
-            <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: isMobile ? '800px' : 'auto' }}>
                     <thead style={{ backgroundColor: '#fafafa', borderBottom: '1px solid #f0f0f0' }}>
                         <tr>
                             <th style={{ padding: '1.2rem', fontWeight: 600, color: '#262626' }}>No</th>
@@ -222,7 +236,7 @@ const OrdersManager: React.FC = () => {
                                         <div style={{ position: 'relative', display: 'inline-block' }}>
                                             <select
                                                 value={order.status}
-                                                onChange={(e) => handleStatusUpdate(order.id, e.target.value as any)}
+                                                onChange={(e) => handleStatusUpdate(order.id, e.target.value as Order['status'])}
                                                 style={{
                                                     padding: '0.5rem 0.8rem',
                                                     borderRadius: '6px',

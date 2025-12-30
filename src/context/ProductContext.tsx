@@ -27,7 +27,7 @@ export interface Product {
 
 export interface Order {
     id: number;
-    customer_id: string; // Changed from user_id
+    user_id: string;
     customer_name: string;
     customer_phone: string;
     customer_email?: string;
@@ -63,7 +63,7 @@ interface ProductContextType {
     login: (email: string, password: string) => Promise<{ error: AuthError | null }>;
     register: (email: string, password: string, profile: { full_name: string; phone: string; address: string }) => Promise<{ error: AuthError | null }>;
     logout: () => Promise<void>;
-    createOrder: (order: Omit<Order, 'id' | 'created_at' | 'customer_id'>, items: Omit<OrderItem, 'id' | 'order_id'>[]) => Promise<void>;
+    createOrder: (order: Omit<Order, 'id' | 'created_at' | 'user_id'>, items: Omit<OrderItem, 'id' | 'order_id'>[]) => Promise<void>;
     getUserOrders: () => Promise<Order[]>;
     getAllOrders: () => Promise<Order[]>;
     updateOrderStatus: (orderId: number, status: Order['status']) => Promise<void>;
@@ -232,13 +232,13 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
         await supabase.auth.signOut();
     };
 
-    const createOrder = async (order: Omit<Order, 'id' | 'created_at' | 'customer_id'>, items: Omit<OrderItem, 'id' | 'order_id'>[]) => {
+    const createOrder = async (order: Omit<Order, 'id' | 'created_at' | 'user_id'>, items: Omit<OrderItem, 'id' | 'order_id'>[]) => {
         const { data: { user: currentUser } } = await supabase.auth.getUser();
         if (!currentUser) throw new Error('User not authenticated');
 
         const { data: orderData, error: orderError } = await supabase
             .from('orders')
-            .insert({ ...order, customer_id: currentUser.id })
+            .insert({ ...order, user_id: currentUser.id })
             .select()
             .single();
 
@@ -266,7 +266,7 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 *,
                 items:order_items(*)
             `)
-            .eq('customer_id', currentUser.id)
+            .eq('user_id', currentUser.id)
             .order('created_at', { ascending: false });
 
         if (error) {

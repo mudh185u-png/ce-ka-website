@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useProducts } from '../context/ProductContext';
+import { useProducts, type Order } from '../context/ProductContext';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Mail, Lock, User, Phone, MapPin, Loader2, ArrowRight, ArrowLeft, LogOut, Package, ExternalLink } from 'lucide-react';
@@ -12,8 +12,24 @@ const Auth: React.FC = () => {
     const { showToast } = useToast();
     const isRTL = i18n.language === 'ar';
 
-    const [orders, setOrders] = useState<any[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [ordersLoading, setOrdersLoading] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+
+        if (isAuthenticated && user) {
+            console.log("Profile Debug:", {
+                email: user.email,
+                metadata: user.user_metadata,
+                full_name: user.user_metadata?.full_name
+            });
+        }
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isAuthenticated, user]);
 
     React.useEffect(() => {
         if (isAuthenticated) {
@@ -55,7 +71,7 @@ const Auth: React.FC = () => {
                 showToast(t('auth.registerSuccess', { defaultValue: 'Kayıt başarılı! Lütfen e-postanızı doğrulayın.' }), 'success');
             }
         } catch (error: any) {
-            showToast(error.message || t('auth.error', { defaultValue: 'Bir hata oluştu' }), 'error');
+            showToast(error?.message || t('auth.error', { defaultValue: 'Bir hata oluştu' }), 'error');
         } finally {
             setLoading(false);
         }
@@ -80,20 +96,20 @@ const Auth: React.FC = () => {
     };
 
     const containerStyle: React.CSSProperties = {
-        minHeight: '100vh',
+        minHeight: '80vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#f8fafc',
-        padding: '2rem'
+        padding: isMobile ? '1rem' : '2rem'
     };
 
-    const cardStyle = {
+    const cardStyle: React.CSSProperties = {
         width: '100%',
         maxWidth: '450px',
         backgroundColor: 'white',
         borderRadius: '24px',
-        padding: '3rem',
+        padding: isMobile ? '1.5rem' : '3rem',
         boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
     };
 
@@ -101,9 +117,16 @@ const Auth: React.FC = () => {
         return (
             <div style={containerStyle}>
                 <div style={{ ...cardStyle, maxWidth: '800px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: isMobile ? 'column' : 'row',
+                        justifyContent: 'space-between',
+                        alignItems: isMobile ? 'flex-start' : 'center',
+                        marginBottom: '2rem',
+                        gap: isMobile ? '1rem' : '0'
+                    }}>
                         <div>
-                            <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1e293b', marginBottom: '0.2rem', fontFamily: "'Playfair Display', serif" }}>
+                            <h1 style={{ fontSize: isMobile ? '1.4rem' : '1.8rem', fontWeight: 800, color: '#1e293b', marginBottom: '0.2rem', fontFamily: "'Playfair Display', serif" }}>
                                 {user.user_metadata?.full_name || user.email}
                             </h1>
                             <p style={{ color: '#64748b', fontSize: '0.9rem' }}>{user.email}</p>
@@ -154,12 +177,14 @@ const Auth: React.FC = () => {
                             <div style={{ display: 'grid', gap: '1rem' }}>
                                 {orders.map(order => (
                                     <div key={order.id} style={{
-                                        padding: '1.5rem',
+                                        padding: isMobile ? '1rem' : '1.5rem',
                                         backgroundColor: '#f8fafc',
                                         borderRadius: '16px',
                                         display: 'flex',
+                                        flexDirection: isMobile ? 'column' : 'row',
                                         justifyContent: 'space-between',
-                                        alignItems: 'center'
+                                        alignItems: isMobile ? 'flex-start' : 'center',
+                                        gap: isMobile ? '1rem' : '0'
                                     }}>
                                         <div>
                                             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.4rem' }}>

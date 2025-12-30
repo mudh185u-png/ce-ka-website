@@ -144,5 +144,11 @@
             "title": "Şartlar ve Koşullar",
             "desc": "Sitemizi kullanarak şartlarımızı ve koşullarımızı kabul etmiş olursunuz."
         }
+    },
+    "whatsapp": {
+        "welcome": "Merhaba! Size nasıl yardımcı olabiliriz?",
+        "sales": "Satış Departmanı",
+        "support": "Teknik Destek",
+        "chatNow": "Şimdi Sohbet Edin"
     }
 }

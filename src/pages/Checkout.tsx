@@ -12,6 +12,14 @@ const Checkout: React.FC = () => {
     const { cart, cartTotal, clearCart } = useCart();
     const navigate = useNavigate();
     const { showToast } = useToast();
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const isRTL = i18n.language === 'ar';
 
     const [loading, setLoading] = useState(false);
@@ -64,9 +72,10 @@ const Checkout: React.FC = () => {
             clearCart();
             setOrderSuccess(true);
             showToast(t('checkout.success', { defaultValue: 'Siparişiniz başarıyla oluşturuldu' }), 'success');
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Order error:', error);
-            showToast(error.message || t('checkout.error', { defaultValue: 'Sipariş oluşturulurken hata oluştu' }), 'error');
+            const errorMessage = error instanceof Error ? error.message : t('checkout.error', { defaultValue: 'Sipariş oluşturulurken hata oluştu' });
+            showToast(errorMessage, 'error');
         } finally {
             setLoading(false);
         }
@@ -103,11 +112,22 @@ const Checkout: React.FC = () => {
 
     return (
         <div style={{ padding: '4rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '3rem', color: '#1a1a1a', fontFamily: "'Playfair Display', serif", textAlign: isRTL ? 'right' : 'left' }}>
+            <h1 style={{
+                fontSize: isMobile ? '1.8rem' : '2.5rem',
+                fontWeight: 800,
+                marginBottom: isMobile ? '2rem' : '3rem',
+                color: '#1a1a1a',
+                fontFamily: "'Playfair Display', serif",
+                textAlign: isRTL ? 'right' : 'left'
+            }}>
                 {t('checkout.title', { defaultValue: 'Ödeme ve Onay' })}
             </h1>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '4rem' }}>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : '1.5fr 1fr',
+                gap: isMobile ? '2rem' : '4rem'
+            }}>
                 {/* Order Summary */}
                 <div style={{ textAlign: isRTL ? 'right' : 'left' }}>
                     <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>

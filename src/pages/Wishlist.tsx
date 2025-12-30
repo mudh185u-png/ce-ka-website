@@ -59,8 +59,8 @@ const Wishlist: React.FC = () => {
                     ) : (
                         <div style={{
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                            gap: '2.5rem'
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+                            gap: '1.5rem'
                         }}>
                             {wishlist.map(product => (
                                 <ProductCard key={product.id} product={product} />

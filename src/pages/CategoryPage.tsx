@@ -18,6 +18,13 @@ const CategoryPage: React.FC = () => {
     const [sortBy, setSortBy] = useState('newest');
     const [selectedBadge, setSelectedBadge] = useState('all');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleClearFilters = () => {
         setMinPrice('');
@@ -69,7 +76,7 @@ const CategoryPage: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: '2rem 5%', minHeight: '80vh' }}>
+        <div style={{ padding: isMobile ? '1.5rem 1rem' : '2rem 5%', minHeight: '80vh' }}>
             <button
                 onClick={() => navigate('/')}
                 style={{
@@ -79,20 +86,20 @@ const CategoryPage: React.FC = () => {
                     border: 'none',
                     background: 'none',
                     cursor: 'pointer',
-                    marginBottom: '2rem',
-                    fontSize: '1rem',
+                    marginBottom: isMobile ? '1.5rem' : '2rem',
+                    fontSize: isMobile ? '0.9rem' : '1rem',
                     color: '#666'
                 }}
             >
-                <ArrowLeft size={20} />
+                <ArrowLeft size={isMobile ? 18 : 20} />
                 {t('common.back', 'Ana Sayfaya Dön')}
             </button>
 
-            <div style={{ marginBottom: '3rem' }}>
-                <h1 style={{ fontSize: '2.5rem', margin: '0 0 0.5rem', fontFamily: "'Playfair Display', serif" }}>
+            <div style={{ marginBottom: isMobile ? '2rem' : '3rem' }}>
+                <h1 style={{ fontSize: isMobile ? '2rem' : '2.5rem', margin: '0 0 0.5rem', fontFamily: "'Playfair Display', serif" }}>
                     {getCategoryTitle(id)}
                 </h1>
-                <div style={{ color: '#888', fontSize: '1.1rem' }}>
+                <div style={{ color: '#888', fontSize: isMobile ? '0.95rem' : '1.1rem' }}>
                     {sortedAndFiltered.length} {t('common.productsFound')}
                 </div>
             </div>
@@ -149,8 +156,8 @@ const CategoryPage: React.FC = () => {
                     ) : (
                         <div style={{
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-                            gap: '2rem'
+                            gridTemplateColumns: isMobile ? 'repeat(auto-fill, minmax(160px, 1fr))' : 'repeat(auto-fill, minmax(260px, 1fr))',
+                            gap: isMobile ? '1rem' : '2rem'
                         }}>
                             {sortedAndFiltered.map((product) => (
                                 <ProductCard key={product.id} product={product} />

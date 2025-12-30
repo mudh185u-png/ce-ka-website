@@ -11,6 +11,7 @@ import ProductDetails from './pages/ProductDetails';
 import CategoryPage from './pages/CategoryPage';
 import Auth from './pages/Auth';
 import Checkout from './pages/Checkout';
+import WhatsAppWidget from './components/WhatsAppWidget';
 
 // Admin Pages
 import Login from './pages/admin/Login';
@@ -49,68 +50,71 @@ const PublicLayout = () => (
 
 function App() {
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<PublicLayout />} />
-      <Route path="/product/:id" element={
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Header />
-          <main style={{ flex: 1 }}>
-            <ProductDetails />
-          </main>
-          <Footer />
-        </div>
-      } />
-      <Route path="/category/:id" element={
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Header />
-          <main style={{ flex: 1 }}>
-            <CategoryPage />
-          </main>
-          <Footer />
-        </div>
-      } />
-      <Route path="/auth" element={
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Header />
-          <main style={{ flex: 1 }}>
-            <Auth />
-          </main>
-          <Footer />
-        </div>
-      } />
-      <Route path="/checkout" element={
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Header />
-          <main style={{ flex: 1 }}>
-            <Checkout />
-          </main>
-          <Footer />
-        </div>
-      } />
+    <>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<PublicLayout />} />
+        <Route path="/product/:id" element={
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Header />
+            <main style={{ flex: 1 }}>
+              <ProductDetails />
+            </main>
+            <Footer />
+          </div>
+        } />
+        <Route path="/category/:id" element={
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Header />
+            <main style={{ flex: 1 }}>
+              <CategoryPage />
+            </main>
+            <Footer />
+          </div>
+        } />
+        <Route path="/auth" element={
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Header />
+            <main style={{ flex: 1 }}>
+              <Auth />
+            </main>
+            <Footer />
+          </div>
+        } />
+        <Route path="/checkout" element={
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Header />
+            <main style={{ flex: 1 }}>
+              <Checkout />
+            </main>
+            <Footer />
+          </div>
+        } />
 
-      {/* Legal Routes */}
-      <Route path="/privacy" element={<PrivacyPolicy />} />
-      <Route path="/refund" element={<RefundPolicy />} />
-      <Route path="/terms" element={<Terms />} />
-      <Route path="/wishlist" element={<Wishlist />} />
+        {/* Legal Routes */}
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/refund" element={<RefundPolicy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/wishlist" element={<Wishlist />} />
 
-      {/* Admin Login */}
-      <Route path="/admin/login" element={<Login />} />
+        {/* Admin Login */}
+        <Route path="/admin/login" element={<Login />} />
 
-      {/* Admin Panel Protected Routes */}
-      <Route path="/admin" element={
-        <ProtectedRoute>
-          <AdminLayout />
-        </ProtectedRoute>
-      }>
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="products" element={<ProductManager />} />
-        <Route path="orders" element={<OrdersManager />} />
-        <Route path="settings" element={<Settings />} />
-        <Route index element={<Navigate to="dashboard" replace />} />
-      </Route>
-    </Routes>
+        {/* Admin Panel Protected Routes */}
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="products" element={<ProductManager />} />
+          <Route path="orders" element={<OrdersManager />} />
+          <Route path="settings" element={<Settings />} />
+          <Route index element={<Navigate to="dashboard" replace />} />
+        </Route>
+      </Routes>
+      <WhatsAppWidget />
+    </>
   );
 }
 
