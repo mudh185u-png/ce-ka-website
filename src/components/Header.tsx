@@ -200,6 +200,7 @@ const Header: React.FC = () => {
                             }}
                             onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
                             onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                            aria-label={t('common.search') || 'Arama'}
                         >
                             <Search size={isMobile ? 20 : 22} />
                         </button>
@@ -227,6 +228,7 @@ const Header: React.FC = () => {
                                 e.currentTarget.style.transform = 'translateY(0)';
                                 if (isAuthenticated) e.currentTarget.style.backgroundColor = '#f0f7ff';
                             }}
+                            aria-label={isAuthenticated ? t('auth.profile') : t('auth.login')}
                         >
                             <User size={isMobile ? 20 : 22} />
                             {!isMobile && (
@@ -262,6 +264,7 @@ const Header: React.FC = () => {
                             }}
                             onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
                             onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                            aria-label={t('common.wishlist') || 'Favorilerim'}
                         >
                             <Heart size={isMobile ? 20 : 22} fill={wishlist.length > 0 ? '#ff4d4d' : 'none'} />
                             {wishlist.length > 0 && (
@@ -290,6 +293,7 @@ const Header: React.FC = () => {
                         <div
                             style={{ position: 'relative', cursor: 'pointer', padding: '0.5rem' }}
                             onClick={toggleCart}
+                            aria-label={t('cart.title')}
                             onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
                             onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
                         >

@@ -57,19 +57,19 @@ const WhatsAppWidget: React.FC = () => {
 
                 if (data && data.value) {
                     console.log("WhatsAppWidget: Received data:", data.value);
-                    const fetchedValue = data.value as any;
+                    const fetchedValue = data.value as Partial<WhatsAppSettings>;
 
                     // Only update if fetchedValue is an object and contains expected fields
-                    if (typeof fetchedValue === 'object') {
+                    if (fetchedValue && typeof fetchedValue === 'object') {
                         setSettings(prev => ({
                             ...prev,
                             ...fetchedValue,
                             // Ensure nested objects are merged correctly too
-                            title: { ...(prev.title || {}), ...(fetchedValue.title || {}) },
-                            welcome_message: { ...(prev.welcome_message || {}), ...(fetchedValue.welcome_message || {}) },
-                            online_text: { ...(prev.online_text || {}), ...(fetchedValue.online_text || {}) },
+                            title: { ...prev.title, ...(fetchedValue.title || {}) },
+                            welcome_message: { ...prev.welcome_message, ...(fetchedValue.welcome_message || {}) },
+                            online_text: { ...prev.online_text, ...(fetchedValue.online_text || {}) },
                             // Strictly check for boolean false
-                            enabled: fetchedValue.enabled === false ? false : true
+                            enabled: fetchedValue.enabled === false ? false : (fetchedValue.enabled ?? prev.enabled)
                         }));
                     }
                 } else {
@@ -91,7 +91,7 @@ const WhatsAppWidget: React.FC = () => {
             return () => clearTimeout(t);
         }
 
-        let hideTimer: any;
+        let hideTimer: ReturnType<typeof setTimeout>;
         const showTimer = setTimeout(() => {
             setShowHeaderMsg(true);
             hideTimer = setTimeout(() => {

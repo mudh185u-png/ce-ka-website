@@ -31,10 +31,13 @@ const Footer: React.FC = () => {
                 .in('key', ['contact_info', 'social_links']);
 
             if (data) {
-                const map = data.reduce((acc: SiteSettingsState, item: { key: string; value: any }) => {
-                    (acc as any)[item.key] = item.value;
+                const map = data.reduce((acc: SiteSettingsState, item: { key: string; value: unknown }) => {
+                    const key = item.key as keyof SiteSettingsState;
+                    if (key === 'contact_info' || key === 'social_links') {
+                        acc[key] = item.value as SiteSettingsState[typeof key];
+                    }
                     return acc;
-                }, {});
+                }, {} as SiteSettingsState);
                 setSettings(map);
             }
         };
@@ -91,22 +94,22 @@ const Footer: React.FC = () => {
                     <h4 style={{ fontSize: '1.1rem', marginBottom: '1.2rem', fontWeight: 600 }}>{t('common.followUs') || 'Bizi Takip Edin'}</h4>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         {social.instagram && (
-                            <a href={social.instagram} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', opacity: 0.8 }}>
+                            <a href={social.instagram} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', opacity: 0.8 }} aria-label="Instagram">
                                 <Instagram size={24} />
                             </a>
                         )}
                         {social.facebook && (
-                            <a href={social.facebook} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', opacity: 0.8 }}>
+                            <a href={social.facebook} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', opacity: 0.8 }} aria-label="Facebook">
                                 <Facebook size={24} />
                             </a>
                         )}
                         {social.twitter && (
-                            <a href={social.twitter} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', opacity: 0.8 }}>
+                            <a href={social.twitter} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', opacity: 0.8 }} aria-label="Twitter">
                                 <Twitter size={24} />
                             </a>
                         )}
                         {social.youtube && (
-                            <a href={social.youtube} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', opacity: 0.8 }}>
+                            <a href={social.youtube} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', opacity: 0.8 }} aria-label="Youtube">
                                 <Youtube size={24} />
                             </a>
                         )}

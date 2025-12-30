@@ -23,6 +23,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         return obj[i18n.language] || obj['en'] || '';
     };
 
+    const getOptimizedUrl = (url: string | undefined, width = 400, height = 400) => {
+        if (!url) return 'https://via.placeholder.com/300';
+        if (url.includes('supabase.co')) {
+            return `${url}?width=${width}&height=${height}&resize=contain&format=webp&quality=80`;
+        }
+        return url;
+    };
+
     const hasDiscount = product.discountPrice && product.discountPrice < product.price;
 
     return (
@@ -32,7 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         >
             <div className="product-image-container">
                 <img
-                    src={product.images?.[0] || 'https://via.placeholder.com/300'}
+                    src={getOptimizedUrl(product.images?.[0])}
                     alt={getLocalized(product.title)}
                     width="400"
                     height="400"

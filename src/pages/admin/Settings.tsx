@@ -128,9 +128,9 @@ const Settings: React.FC = () => {
     }, []);
 
     // Safe helper to get localized text
-    const getVal = (obj: any, key: string, lang: 'tr' | 'ar' | 'en') => {
+    const getVal = (obj: unknown, key: string, lang: 'tr' | 'ar' | 'en') => {
         if (!obj || typeof obj !== 'object') return '';
-        const val = obj[key] as LocalizedText | undefined;
+        const val = (obj as Record<string, unknown>)[key] as LocalizedText | undefined;
         return val?.[lang] || '';
     };
 
@@ -152,8 +152,9 @@ const Settings: React.FC = () => {
             setNewAdminEmail('');
             fetchAdmins();
             setMessage({ text: 'Yönetici başarıyla eklendi.', type: 'success' });
-        } catch (err: any) {
-            setMessage({ text: err.message || 'Hata oluştu.', type: 'error' });
+        } catch (err) {
+            const error = err as Error;
+            setMessage({ text: error.message || 'Hata oluştu.', type: 'error' });
         }
     };
 
@@ -163,8 +164,9 @@ const Settings: React.FC = () => {
             if (error) throw error;
             fetchAdmins();
             setMessage({ text: 'Yönetici kaldırıldı.', type: 'success' });
-        } catch (err: any) {
-            setMessage({ text: err.message || 'Hata oluştu.', type: 'error' });
+        } catch (err) {
+            const error = err as Error;
+            setMessage({ text: error.message || 'Hata oluştu.', type: 'error' });
         }
     };
 
@@ -192,9 +194,10 @@ const Settings: React.FC = () => {
 
             console.log("Successfully fetched reviews:", data?.length);
             if (data) setAllReviews(data);
-        } catch (err: any) {
-            console.error('Catch Error in FetchReviews:', err);
-            setMessage({ text: err.message || 'Yorumlar yüklenirken bir hata oluştu.', type: 'error' });
+        } catch (err) {
+            const error = err as Error;
+            console.error('Catch Error in FetchReviews:', error);
+            setMessage({ text: error.message || 'Yorumlar yüklenirken bir hata oluştu.', type: 'error' });
         }
     };
 
@@ -207,8 +210,9 @@ const Settings: React.FC = () => {
             if (error) throw error;
             fetchAllReviews();
             setMessage({ text: 'Yorum durumu güncellendi.', type: 'success' });
-        } catch (err: any) {
-            setMessage({ text: err.message || 'Hata oluştu.', type: 'error' });
+        } catch (err) {
+            const error = err as Error;
+            setMessage({ text: error.message || 'Hata oluştu.', type: 'error' });
         }
     };
 
@@ -222,8 +226,9 @@ const Settings: React.FC = () => {
             if (error) throw error;
             fetchAllReviews();
             setMessage({ text: 'Yorum silindi.', type: 'success' });
-        } catch (err: any) {
-            setMessage({ text: err.message || 'Hata oluştu.', type: 'error' });
+        } catch (err) {
+            const error = err as Error;
+            setMessage({ text: error.message || 'Hata oluştu.', type: 'error' });
         }
     };
 
@@ -238,23 +243,23 @@ const Settings: React.FC = () => {
             if (data) {
                 setSettings(prev => {
                     const next = { ...prev };
-                    data.forEach((item: { key: string; value: any }) => {
+                    data.forEach((item: { key: string; value: unknown }) => {
                         const key = item.key as keyof SiteSettings;
                         if (key in next) {
                             if (typeof item.value === 'object' && item.value !== null) {
-                                next[key] = {
-                                    ...(next[key] as any),
-                                    ...item.value
+                                (next[key] as Record<string, unknown>) = {
+                                    ...(next[key] as Record<string, unknown>),
+                                    ...(item.value as Record<string, unknown>)
                                 };
                             } else {
-                                (next as any)[key] = item.value;
+                                (next as any)[key] = item.value; // Still need one cast for dynamic key assignment in loop
                             }
                         }
                     });
                     return next;
                 });
             }
-        } catch (err: any) {
+        } catch (err) {
             console.error('Error fetching settings:', err);
         } finally {
             setLoading(false);
@@ -298,21 +303,22 @@ const Settings: React.FC = () => {
                 const section = next[settingsKeyTyped];
 
                 if (section && typeof section === 'object') {
-                    const updatedSection = { ...section };
+                    const updatedSection = { ...section } as Record<string, unknown>;
                     if (nestedKey) {
-                        (updatedSection as any)[nestedKey] = publicUrl;
+                        updatedSection[nestedKey] = publicUrl;
                     } else {
-                        (updatedSection as any).url = publicUrl;
+                        updatedSection.url = publicUrl;
                     }
-                    next[settingsKeyTyped] = updatedSection as any;
+                    (next as any)[settingsKeyTyped] = updatedSection;
                 }
                 return next;
             });
 
             setMessage({ text: 'Dosya başarıyla yüklendi! Lütfen "Kaydet" butonuna tıklayarak değişiklikleri kalıcı hale getirin.', type: 'success' });
-        } catch (err: any) {
-            console.error('Upload Error:', err);
-            setMessage({ text: `Yükleme hatası: ${err.message || 'Bilinmeyen hata'}`, type: 'error' });
+        } catch (err) {
+            const error = err as Error;
+            console.error('Upload Error:', error);
+            setMessage({ text: `Yükleme hatası: ${error.message || 'Bilinmeyen hata'}`, type: 'error' });
         } finally {
             setUploading(false);
         }
@@ -341,9 +347,10 @@ const Settings: React.FC = () => {
             }
 
             setMessage({ text: 'Ayarlar başarıyla kaydedildi.', type: 'success' });
-        } catch (err: any) {
-            console.error('Error saving settings:', err);
-            setMessage({ text: err.message || 'Ayarlar kaydedilirken bir hata oluştu.', type: 'error' });
+        } catch (err) {
+            const error = err as Error;
+            console.error('Error saving settings:', error);
+            setMessage({ text: error.message || 'Ayarlar kaydedilirken bir hata oluştu.', type: 'error' });
         } finally {
             setSaving(false);
         }
@@ -463,7 +470,7 @@ const Settings: React.FC = () => {
                                                 <td style={{ padding: '1.2rem 1rem', borderBottom: '1px solid #f0f0f0' }}>
                                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
                                                         <span style={{ fontWeight: 600, fontSize: '0.9rem' }}>
-                                                            {review.products ? (typeof review.products === 'object' && !Array.isArray(review.products) ? (review.products as any).title?.tr : 'Ürün') : 'Ürün Silinmiş'}
+                                                            {review.products ? review.products.title?.tr : 'Ürün Silinmiş'}
                                                         </span>
                                                         <span style={{ fontSize: '0.8rem', color: '#666' }}>{review.user_name}</span>
                                                     </div>

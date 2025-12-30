@@ -23,7 +23,15 @@ const ProductDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { products } = useProducts();
     const { addToCart } = useCart();
-    const { t, i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
+
+    const getOptimizedUrl = (url: string | undefined, width = 800, height = 800) => {
+        if (!url) return 'https://via.placeholder.com/600';
+        if (url.includes('supabase.co')) {
+            return `${url}?width=${width}&height=${height}&resize=contain&format=webp&quality=80`;
+        }
+        return url;
+    };
     const navigate = useNavigate();
 
     const getLocalized = useCallback((obj: { [key: string]: string } | undefined) => {
@@ -143,12 +151,13 @@ const ProductDetails: React.FC = () => {
                 type: 'success'
             });
             setReviewForm({ name: '', rating: 5, comment: '' });
-        } catch (err: any) {
+        } catch (err) {
             console.error('Error submitting review:', err);
-            const errorMessage = err?.message || (i18n.language === 'ar' ? 'فشل إرسال التقييم.' : 'Değerlendirme gönderilemedi.');
+            const error = err as Error;
+            const errorMessage = error?.message || (i18n.language === 'ar' ? 'فشل إرسال التقييم.' : 'Değerlendirme gönderilemedi.');
             setReviewMessage({ text: errorMessage, type: 'error' });
             // Add a temporary alert if fetch fails to make it obvious
-            alert(`Review Error: ${err?.message}`);
+            alert(`Review Error: ${error?.message}`);
         } finally {
             setSubmittingReview(false);
         }
@@ -393,7 +402,7 @@ const ProductDetails: React.FC = () => {
                             <motion.img
                                 initial={{ scale: 0.9, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
-                                src={selectedImage || 'https://via.placeholder.com/600'}
+                                src={getOptimizedUrl(selectedImage, 1200, 1200)}
                                 alt=""
                                 style={{
                                     maxWidth: '100%',
@@ -426,7 +435,7 @@ const ProductDetails: React.FC = () => {
                                         backgroundColor: '#fff'
                                     }}
                                 >
-                                    <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    <img src={getOptimizedUrl(img, 150, 150)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 </div>
                             ))}
                         </div>
@@ -1277,7 +1286,7 @@ const ProductDetails: React.FC = () => {
                                 onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)'; }}
                             >
                                 <div style={{ height: '220px', position: 'relative' }}>
-                                    <img src={related.images?.[0] || 'https://via.placeholder.com/300'} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    <img src={getOptimizedUrl(related.images?.[0], 400, 400)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 </div>
                                 <div style={{ padding: '1.2rem' }}>
                                     <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#999', letterSpacing: '0.5px' }}>{related.category}</span>
