@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ProductGrid from './components/ProductGrid';
@@ -51,6 +52,30 @@ const PublicLayout = () => (
 function App() {
   return (
     <>
+      <Helmet>
+        <title>Ce Ka Baza | Baza - Başlık - Yatak</title>
+        <meta name="description" content="Ce Ka Baza - Kaliteli baza, başlık ve yatak ürünleri. En uygun fiyatlarla konforlu uykunun adresi." />
+        <meta name="keywords" content="Ce Ka Baza, baza, başlık, yatak, mobilya, uyku seti, ce ka" />
+        <link rel="canonical" href="https://ceka-baza.netlify.app/" />
+        {/* JSON-LD for Local Business SEO */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FurnitureStore",
+            "name": "Ce Ka Baza",
+            "image": "https://ceka-baza.netlify.app/vite.svg",
+            "url": "https://ceka-baza.netlify.app/",
+            "telephone": "+905550000000",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Siteler",
+              "addressLocality": "Ankara",
+              "addressCountry": "TR"
+            },
+            "priceRange": "$$"
+          })}
+        </script>
+      </Helmet>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<PublicLayout />} />

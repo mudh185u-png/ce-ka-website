@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import {
     ShoppingCart, Share2, Truck, ShieldCheck, ArrowLeft, CreditCard, Star, MessageSquare, Send, CheckCircle
 } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../supabase';
 
@@ -239,6 +240,31 @@ const ProductDetails: React.FC = () => {
 
     return (
         <div style={{ padding: isMobile ? '1rem' : '2rem 5%', backgroundColor: '#fdfdfd', minHeight: '90vh' }}>
+            <Helmet>
+                <title>{`${getLocalized(product.title)} | Ce Ka Baza`}</title>
+                <meta name="description" content={getLocalized(product.description).substring(0, 160)} />
+                <meta property="og:title" content={getLocalized(product.title)} />
+                <meta property="og:description" content={getLocalized(product.description).substring(0, 160)} />
+                <meta property="og:image" content={getOptimizedUrl(product.images?.[0], 600, 600)} />
+                <meta property="product:price:amount" content={product.price ? product.price.toString() : ""} />
+                <meta property="product:price:currency" content="TRY" />
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org/",
+                        "@type": "Product",
+                        "name": getLocalized(product.title),
+                        "image": product.images?.map(img => getOptimizedUrl(img)),
+                        "description": getLocalized(product.description),
+                        "sku": product.id,
+                        "offers": {
+                            "@type": "Offer",
+                            "priceCurrency": "TRY",
+                            "price": product.price,
+                            "availability": "https://schema.org/InStock"
+                        }
+                    })}
+                </script>
+            </Helmet>
             <button
                 onClick={() => navigate(-1)}
                 style={{

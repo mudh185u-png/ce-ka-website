@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useProducts } from '../context/ProductContext';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import ProductFilters from '../components/ProductFilters';
@@ -77,6 +78,11 @@ const CategoryPage: React.FC = () => {
 
     return (
         <div style={{ padding: isMobile ? '1.5rem 1rem' : '2rem 5%', minHeight: '80vh' }}>
+            <Helmet>
+                <title>{`${getCategoryTitle(id)} | Ce Ka Baza`}</title>
+                <meta name="description" content={`${getCategoryTitle(id)} - Ce Ka Baza kalitesiyle en şık ve konforlu ürünler. Uygun fiyatlar ve ücretsiz teslimat fırsatlarını kaçırmayın.`} />
+                <link rel="canonical" href={`https://ceka-baza.netlify.app/category/${id}`} />
+            </Helmet>
             <button
                 onClick={() => navigate('/')}
                 style={{
