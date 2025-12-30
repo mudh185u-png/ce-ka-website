@@ -58,7 +58,22 @@
         "share": "مشاركة المنتج",
         "linkCopied": "تم نسخ الرابط!",
         "deliveryDesc": "الشحن إلى جميع أنحاء المدينة",
-        "warrantyDesc": "ضمان الشركة المصنعة الرسمي"
+        "warrantyDesc": "ضمان الشركة المصنعة الرسمي",
+        "search": "بحث",
+        "wishlist": "قائمة الأمنيات",
+        "close": "إغلاق",
+        "previous": "السابق",
+        "next": "التالي",
+        "openMenu": "فتح القائمة",
+        "closeMenu": "إغلاق القائمة",
+        "addToWishlist": "إضافة للمفضلات",
+        "removeFromWishlist": "إزالة من المفضلات",
+        "closeCart": "إغلاق السلة",
+        "removeFromCart": "إزالة من السلة",
+        "image": "صورة",
+        "whatsapp": "دعم واتساب",
+        "reviews": "تقييمات العملاء",
+        "relatedProducts": "منتجات ذات صلة"
     },
     "categories": {
         "set": "طقم سرير وقاعدة ورأسية",
@@ -144,5 +159,18 @@
         "sales": "قسم المبيعات",
         "support": "الدعم الفني",
         "chatNow": "تحدث معنا الآن"
+    },
+    "reviews": {
+        "title": "تقييمات العملاء",
+        "noReviews": "لا توجد تقييمات لهذا المنتج بعد.",
+        "addReview": "اكتب تقييماً",
+        "verifiedAccount": "حساب موثق",
+        "name": "الاسم الكامل",
+        "yourName": "اسمك الكامل",
+        "rating": "تقييمك",
+        "comment": "تعليقك",
+        "yourComment": "رأيك في المنتج...",
+        "submitReview": "إرسال التقييم",
+        "success": "تم إرسال تقييمك بنجاح."
     }
 }

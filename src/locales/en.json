@@ -58,7 +58,22 @@
         "share": "Share Product",
         "linkCopied": "Link copied to clipboard!",
         "deliveryDesc": "Shipping to the whole city",
-        "warrantyDesc": "Official manufacturer warranty"
+        "warrantyDesc": "Official manufacturer warranty",
+        "search": "Search",
+        "wishlist": "Wishlist",
+        "close": "Close",
+        "previous": "Previous",
+        "next": "Next",
+        "openMenu": "Open Menu",
+        "closeMenu": "Close Menu",
+        "addToWishlist": "Add to Wishlist",
+        "removeFromWishlist": "Remove from Wishlist",
+        "closeCart": "Close Cart",
+        "removeFromCart": "Remove from Cart",
+        "image": "Image",
+        "whatsapp": "WhatsApp Support",
+        "reviews": "Customer Reviews",
+        "relatedProducts": "Related Products"
     },
     "categories": {
         "set": "Bed & Base & Headboard Set",
@@ -144,5 +159,18 @@
         "sales": "Sales Department",
         "support": "Technical Support",
         "chatNow": "Chat with us now"
+    },
+    "reviews": {
+        "title": "Customer Reviews",
+        "noReviews": "No reviews yet for this product.",
+        "addReview": "Write a Review",
+        "verifiedAccount": "Verified Account",
+        "name": "Full Name",
+        "yourName": "Your Full Name",
+        "rating": "Your Rating",
+        "comment": "Your Comment",
+        "yourComment": "Your thoughts about the product...",
+        "submitReview": "Submit Review",
+        "success": "Your review has been submitted successfully."
     }
 }

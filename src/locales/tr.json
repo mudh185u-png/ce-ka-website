@@ -58,7 +58,22 @@
         "share": "Ürünü Paylaş",
         "linkCopied": "Bağlantı kopyalandı!",
         "deliveryDesc": "Tüm şehre gönderim",
-        "warrantyDesc": "Resmi üretici garantisi"
+        "warrantyDesc": "Resmi üretici garantisi",
+        "search": "Ara",
+        "wishlist": "Favorilerim",
+        "close": "Kapat",
+        "previous": "Önceki",
+        "next": "Sonraki",
+        "openMenu": "Menüyü Aç",
+        "closeMenu": "Menüyü Kapat",
+        "addToWishlist": "Favorilere Ekle",
+        "removeFromWishlist": "Favorilerden Çıkar",
+        "closeCart": "Sepeti Kapat",
+        "removeFromCart": "Sepetten Kaldır",
+        "image": "Resim",
+        "whatsapp": "WhatsApp Destek",
+        "reviews": "Müşteri Değerlendirmeleri",
+        "relatedProducts": "Benzer Ürünler"
     },
     "categories": {
         "set": "Yatak & Baza & Başlık Set",
@@ -150,5 +165,18 @@
         "sales": "Satış Departmanı",
         "support": "Teknik Destek",
         "chatNow": "Şimdi Sohbet Edin"
+    },
+    "reviews": {
+        "title": "Müşteri Değerlendirmeleri",
+        "noReviews": "Henüz bu ürün için değerlendirme yapılmamış.",
+        "addReview": "Değerlendirme Yaz",
+        "verifiedAccount": "Doğrulanmış Hesap",
+        "name": "Ad Soyad",
+        "yourName": "Adınız Soyadınız",
+        "rating": "Puanınız",
+        "comment": "Yorumunuz",
+        "yourComment": "Ürün hakkındaki görüşleriniz...",
+        "submitReview": "Değerlendirmeyi Gönder",
+        "success": "Değerlendirmeniz başarıyla gönderildi."
     }
 }

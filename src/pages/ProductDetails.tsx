@@ -1098,7 +1098,7 @@ const ProductDetails: React.FC = () => {
                     {/* Review List */}
                     <div style={{ flex: 1 }}>
                         <h3 style={{ fontSize: '1.6rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', color: '#222' }}>
-                            <MessageSquare size={24} /> {t('common.reviews') || 'Müşteri Değerlendirmeleri'}
+                            <MessageSquare size={24} /> {t('reviews.title')}
                         </h3>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -1151,13 +1151,13 @@ const ProductDetails: React.FC = () => {
                                         e.currentTarget.style.borderColor = '#ddd';
                                     }}
                                 >
-                                    {`${t('common.viewAll') || (i18n.language === 'ar' ? 'عرض الكل' : 'Hepsini Gör')} (${reviews.length})`}
+                                    {`${t('common.viewAll')} (${reviews.length})`}
                                 </button>
                             )}
 
                             {reviews.length === 0 && (
                                 <div style={{ textAlign: 'center', padding: '3rem', backgroundColor: '#fafafa', borderRadius: '12px', color: '#888' }}>
-                                    {t('common.noReviews') || 'Henüz bu ürün için değerlendirme yapılmamış.'}
+                                    {t('reviews.noReviews')}
                                 </div>
                             )}
                         </div>
@@ -1166,7 +1166,7 @@ const ProductDetails: React.FC = () => {
                     {/* Review Form */}
                     <div style={{ width: isMobile ? '100%' : '380px' }}>
                         <div style={{ backgroundColor: '#fff', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #f0f0f0', position: 'sticky', top: '100px' }}>
-                            <h4 style={{ margin: '0 0 1.5rem 0', fontSize: '1.2rem', fontWeight: 700 }}>{t('common.addReview') || 'Değerlendirme Yaz'}</h4>
+                            <h4 style={{ margin: '0 0 1.5rem 0', fontSize: '1.2rem', fontWeight: 700 }}>{t('reviews.addReview')}</h4>
 
                             {reviewMessage ? (
                                 <motion.div
@@ -1181,7 +1181,7 @@ const ProductDetails: React.FC = () => {
                                             onClick={() => setReviewMessage(null)}
                                             style={{ marginTop: '1rem', background: 'none', border: 'none', color: '#1a1a1a', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
                                         >
-                                            {t('common.close') || 'Kapat'}
+                                            {t('common.close')}
                                         </button>
                                     )}
                                 </motion.div>
@@ -1193,26 +1193,26 @@ const ProductDetails: React.FC = () => {
                                                 <CheckCircle size={16} />
                                             </div>
                                             <div>
-                                                <div style={{ fontSize: '0.75rem', color: '#0050b3', fontWeight: 600, textTransform: 'uppercase' }}>{t('common.verifiedAccount') || 'Doğrulanmış Hesap'}</div>
+                                                <div style={{ fontSize: '0.75rem', color: '#0050b3', fontWeight: 600, textTransform: 'uppercase' }}>{t('reviews.verifiedAccount')}</div>
                                                 <div style={{ fontSize: '0.95rem', color: '#002766', fontWeight: 700 }}>{user?.user_metadata?.full_name || user?.email}</div>
                                             </div>
                                         </div>
                                     ) : (
                                         <div>
-                                            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('common.name') || 'Adınız'}</label>
+                                            <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('reviews.name')}</label>
                                             <input
                                                 type="text"
                                                 required
                                                 value={reviewForm.name}
                                                 onChange={(e) => setReviewForm(prev => ({ ...prev, name: e.target.value }))}
                                                 style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', border: '1px solid #ddd', fontSize: '0.95rem' }}
-                                                placeholder={t('common.yourName') || 'Adınız Soyadınız'}
+                                                placeholder={t('reviews.yourName')}
                                             />
                                         </div>
                                     )}
 
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('common.rating') || 'Puanınız'}</label>
+                                        <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('reviews.rating')}</label>
                                         <div style={{ display: 'flex', gap: '0.5rem' }}>
                                             {[1, 2, 3, 4, 5].map((star) => (
                                                 <button
@@ -1228,14 +1228,14 @@ const ProductDetails: React.FC = () => {
                                     </div>
 
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('common.comment') || 'Yorumunuz'}</label>
+                                        <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#444' }}>{t('reviews.comment')}</label>
                                         <textarea
                                             required
                                             value={reviewForm.comment}
                                             onChange={(e) => setReviewForm(prev => ({ ...prev, comment: e.target.value }))}
                                             rows={4}
                                             style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', border: '1px solid #ddd', fontSize: '0.95rem', resize: 'none' }}
-                                            placeholder={t('common.yourComment') || 'Ürün hakkındaki görüşleriniz...'}
+                                            placeholder={t('reviews.yourComment')}
                                         />
                                     </div>
 
@@ -1258,7 +1258,7 @@ const ProductDetails: React.FC = () => {
                                         }}
                                     >
                                         {submittingReview ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>⏳</motion.div> : <Send size={18} />}
-                                        {t('common.submitReview') || 'Değerlendirmeyi Gönder'}
+                                        {t('reviews.submitReview')}
                                     </button>
                                 </form>
                             )}
@@ -1270,7 +1270,7 @@ const ProductDetails: React.FC = () => {
             {/* Related Products */}
             <div style={{ marginTop: '6rem', paddingTop: '3rem', borderTop: '1px solid #eee' }}>
                 <h3 style={{ fontSize: '1.8rem', marginBottom: '2.5rem', textAlign: 'center', color: '#222', fontFamily: "'Playfair Display', serif" }}>
-                    Benzer Ürünler
+                    {t('common.relatedProducts')}
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
                     {products
@@ -1359,7 +1359,7 @@ const ProductDetails: React.FC = () => {
                         >
                             <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff' }}>
                                 <h3 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 700, color: '#1a1a1a' }}>
-                                    {t('common.reviews') || 'Değerlendirmeler'} ({reviews.length})
+                                    {t('reviews.title')} ({reviews.length})
                                 </h3>
                                 <button
                                     onClick={() => setIsReviewsModalOpen(false)}
@@ -1399,7 +1399,7 @@ const ProductDetails: React.FC = () => {
                                     onMouseEnter={e => e.currentTarget.style.backgroundColor = '#333'}
                                     onMouseLeave={e => e.currentTarget.style.backgroundColor = '#1a1a1a'}
                                 >
-                                    {t('common.close') || 'Kapat'}
+                                    {t('common.close')}
                                 </button>
                             </div>
                         </motion.div>
