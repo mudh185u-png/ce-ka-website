@@ -319,6 +319,7 @@ const ProductDetails: React.FC = () => {
                         >
                             <button
                                 onClick={(e) => { e.stopPropagation(); setIsLightboxOpen(false); }}
+                                aria-label={t('common.close') || (i18n.language === 'ar' ? 'إغلاق' : 'Kapat')}
                                 style={{
                                     position: 'absolute',
                                     top: '20px',
@@ -346,6 +347,7 @@ const ProductDetails: React.FC = () => {
                                 <>
                                     <button
                                         onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
+                                        aria-label={t('common.previous') || (i18n.language === 'ar' ? 'السابق' : 'Önceki')}
                                         style={{
                                             position: 'absolute',
                                             left: '20px',
@@ -372,6 +374,7 @@ const ProductDetails: React.FC = () => {
                                     </button>
                                     <button
                                         onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
+                                        aria-label={t('common.next') || (i18n.language === 'ar' ? 'التالي' : 'Sonraki')}
                                         style={{
                                             position: 'absolute',
                                             right: '20px',
@@ -421,6 +424,8 @@ const ProductDetails: React.FC = () => {
                             {product.images.map((img, idx) => (
                                 <div
                                     key={idx}
+                                    role="button"
+                                    aria-label={`${t('common.image') || 'Resim'} ${idx + 1}`}
                                     onClick={() => setSelectedImage(img)}
                                     style={{
                                         width: '80px',
@@ -1030,6 +1035,7 @@ const ProductDetails: React.FC = () => {
                             <button
                                 onClick={handleShare}
                                 title={t('common.share')}
+                                aria-label={t('common.share') || (i18n.language === 'ar' ? 'مشاركة' : 'Paylaş')}
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',

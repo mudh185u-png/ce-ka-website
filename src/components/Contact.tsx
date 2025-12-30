@@ -48,6 +48,7 @@ const Contact: React.FC = () => {
                     href={settings?.map_url || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={t('contact.viewOnMap') || 'Haritada Gör'}
                     style={{
                         display: 'flex',
                         flexDirection: 'column',

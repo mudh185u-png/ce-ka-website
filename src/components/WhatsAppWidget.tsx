@@ -221,6 +221,7 @@ const WhatsAppWidget: React.FC = () => {
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
+                                aria-label={t('common.close') || 'Kapat'}
                                 style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', padding: '5px' }}
                             >
                                 <X size={20} />
@@ -293,6 +294,7 @@ const WhatsAppWidget: React.FC = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(!isOpen)}
+                aria-label={t('common.whatsapp') || 'WhatsApp Destek'}
                 style={{
                     width: isMobile ? '55px' : '65px',
                     height: isMobile ? '55px' : '65px',

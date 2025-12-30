@@ -59,6 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         e.stopPropagation();
                         toggleWishlist(product);
                     }}
+                    aria-label={isFavorite ? t('common.removeFromWishlist') || 'Favorilerden Çıkar' : t('common.addToWishlist') || 'Favorilere Ekle'}
                     style={{
                         backgroundColor: isFavorite ? 'white' : 'rgba(255,255,255,0.8)',
                         color: isFavorite ? '#ff4d4d' : '#333'
@@ -95,6 +96,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                             e.stopPropagation();
                             addToCart({ ...product, price: hasDiscount ? product.discountPrice! : product.price });
                         }}
+                        aria-label={t('common.addToCart') || 'Sepete Ekle'}
                     >
                         <ShoppingCart size={20} />
                     </button>

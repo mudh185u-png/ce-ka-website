@@ -357,6 +357,7 @@ const Header: React.FC = () => {
                         {isMobile && (
                             <button
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                aria-label={isMobileMenuOpen ? t('common.closeMenu') || 'Menüyü Kapat' : t('common.openMenu') || 'Menüyü Aç'}
                                 style={{
                                     background: '#f8f9fa',
                                     border: 'none',
@@ -477,6 +478,7 @@ const Header: React.FC = () => {
                                 <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 700 }}>{t('cart.title')}</h2>
                                 <button
                                     onClick={toggleCart}
+                                    aria-label={t('common.closeCart') || 'Sepeti Kapat'}
                                     style={{
                                         background: '#f8f9fa',
                                         border: 'none',
@@ -519,6 +521,7 @@ const Header: React.FC = () => {
                                                 </div>
                                                 <button
                                                     onClick={() => removeFromCart(item.id, idx)}
+                                                    aria-label={t('common.removeFromCart') || 'Sepetten Kaldır'}
                                                     style={{
                                                         position: 'absolute',
                                                         top: 0,
